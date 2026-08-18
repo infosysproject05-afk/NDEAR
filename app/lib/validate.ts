@@ -1,0 +1,163 @@
+import { CredentialError, PresentationError } from '../types/credential'
+import * as verifierCore from '@digitalcredentials/verifier-core'
+import {
+  IVerifiableCredential,
+  IVerifiablePresentation
+} from '@digitalcredentials/ssi'
+import { VerifiableObject } from './verifiableObject'
+
+export type ResultLog = {
+  id: string
+  valid: boolean
+  error?: any
+}
+
+export type Result = {
+  verified: boolean
+  credential: IVerifiableCredential
+  error: CredentialError
+  log: ResultLog[]
+}
+
+export type VerifyResponse = {
+  verified: boolean
+  results: Result[]
+}
+
+export async function verifyPresentation(
+  presentation: IVerifiablePresentation
+): Promise<VerifyResponse> {
+  try {
+    const result = await verifierCore.verifyPresentation({
+      presentation
+    })
+    if (!result.verified) {
+      console.warn('VP not verified:', JSON.stringify(result, null, 2))
+    }
+    return result
+  } catch (err) {
+    console.warn(err)
+
+    throw new Error(PresentationError.CouldNotBeVerified)
+  }
+}
+
+export async function verifyCredential(
+  credential: IVerifiableCredential
+): Promise<VerifyResponse> {
+  const response = await fetch(
+    'https://digitalcredentials.github.io/dcc-known-registries/known-did-registries.json'
+  )
+  const knownDIDRegistries = await response.json()
+
+  // const isInRegistry = issuerInRegistries({ issuer, registries });
+  // if (!isInRegistry) {
+  //   throw new Error(CredentialError.DidNotInRegistry);
+  // }
+
+  try {
+    const result = await verifierCore.verifyCredential({
+      credential,
+      knownDIDRegistries: knownDIDRegistries
+    })
+
+    //console.log('Verify result:', JSON.stringify(result, null, 2));
+
+    if (result.results?.[0].error) {
+      result.results[0].log = result.results[0].error.log
+    }
+
+    // Handle the case where the verify response does not contain a `log` value
+    if (result.log === undefined) {
+      result.log = []
+    }
+
+    result.verified = Array.isArray(result.log)
+      ? result.log.every((check: { valid: any }) => check.valid)
+      : false
+
+    if (!result.results) {
+      result.results = [
+        {
+          verified: (result.log as ResultLog[]).every((check) => check.valid),
+          log: result.log,
+          credential: result.credential
+        }
+      ]
+    }
+
+    if (result?.verified === false) {
+      const revocationIndex = (result.log as ResultLog[]).findIndex(
+        (c) => c.id === 'revocation_status'
+      )
+
+      if (revocationIndex !== -1) {
+        const revocationObject = result.log[revocationIndex]
+
+        if (revocationObject?.error?.name === 'status_list_not_found') {
+          ;(result.log as ResultLog[]).splice(revocationIndex, 1)
+
+          // Re-evaluate verification result based on remaining logs
+          result.verified = (result.log as ResultLog[]).every(
+            (log) => log.valid
+          )
+        } else {
+          const revocationResult = {
+            id: 'revocation_status',
+            valid: revocationObject.valid ?? false
+          }
+
+          ;(result.results[0].log ??= []).push(revocationResult)
+          result.hasStatusError = !!revocationObject.error
+        }
+      }
+    }
+
+    if (!result.verified) {
+      console.warn('VC not verified:', JSON.stringify(result, null, 2))
+    }
+
+    return result
+  } catch (err) {
+    console.warn(
+      'verifyCredential',
+      err,
+      JSON.stringify(err, removeStackReplacer, 2)
+    )
+
+    throw new Error(CredentialError.CouldNotBeVerified)
+  }
+}
+
+function removeStackReplacer(key: string, value: unknown) {
+  return key === 'stack' ? '...' : value
+}
+
+export function isVerifiableCredential(
+  obj: VerifiableObject
+): obj is IVerifiableCredential {
+  return obj.type?.includes('VerifiableCredential')
+}
+
+export function isVerifiablePresentation(
+  obj: VerifiableObject
+): obj is IVerifiablePresentation {
+  return obj.type?.includes('VerifiablePresentation')
+}
+
+export async function verifyVerifiableObject(
+  obj: VerifiableObject
+): Promise<boolean> {
+  try {
+    if (isVerifiableCredential(obj)) {
+      return (await verifyCredential(obj)).verified
+    }
+    if (isVerifiablePresentation(obj)) {
+      return (await verifyPresentation(obj)).verified
+    }
+  } catch (err) {
+    console.warn('Error while verifying:', err)
+  }
+
+  return false
+}

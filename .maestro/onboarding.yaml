@@ -1,0 +1,85 @@
+appId: ${APP_ID}
+env:
+  PASSWORD: "TestPassword123!"
+---
+- clearState
+
+- launchApp
+
+- extendedWaitUntil:
+    visible: "http://localhost:8081"
+    timeout: 15000
+
+- tapOn:
+    text: "http://localhost:8081"
+    optional: true
+
+- extendedWaitUntil:
+    visible: "Continue"
+    timeout: 15000
+
+- swipe:
+    direction: DOWN
+    optional: true
+
+- waitForAnimationToEnd
+
+- extendedWaitUntil:
+    visible: "Quick Setup"
+    timeout: 10000
+
+- assertVisible: "Quick Setup"
+
+- tapOn: "Quick Setup"
+
+- runFlow:
+    when:
+      visible: "Password"
+    commands:
+      - tapOn:
+          id: "password-input"
+      - inputText: "${PASSWORD}"
+      - tapOn:
+          id: "confirm-password-input"
+      - inputText: "${PASSWORD}"
+      - tapOn:
+          id: "next-button"
+
+- waitForAnimationToEnd:
+    timeout: 15000
+
+- extendedWaitUntil:
+    visible: "Creating Wallet"
+    timeout: 10000
+    optional: true
+
+- extendedWaitUntil:
+    visible: "This will only take a moment."
+    timeout: 10000
+    optional: true
+
+- extendedWaitUntil:
+    visible: "Take Me To My Wallet"
+    timeout: 15000
+    optional: true
+    
+- tapOn: 
+    text: "Take Me To My Wallet"
+    optional: true
+
+# Alternative completion methods
+- tapOn:
+    text: "Done"
+    optional: true
+
+- tapOn:
+    text: "Continue"
+    optional: true
+
+- tapOn:
+    text: "Get Started"
+    optional: true
+
+# Wait for wallet to be ready
+- waitForAnimationToEnd:
+    timeout: 5000
