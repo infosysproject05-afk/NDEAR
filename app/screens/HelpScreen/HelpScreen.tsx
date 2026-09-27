@@ -1,7 +1,7 @@
 import React from 'react'
-import { ScrollView, Image, Linking, Text } from 'react-native'
+import { ScrollView, Image, Text } from 'react-native'
 
-import appConfig, { LinkConfig } from '../../../app.config'
+import appConfig from '../../../app.config'
 import walletImage from '../../assets/wallet.png'
 import dynamicStyleSheet from './HelpScreen.styles'
 import { NavHeader } from '../../components'
@@ -26,20 +26,7 @@ export default function HelpScreen({
         <Text style={styles.aboutTitleBolded}>{appConfig.displayName}</Text>
         <Text style={styles.paragraphCenter}>
           Learner Credential Wallet is a cross-platform mobile application for
-          storing and sharing digital learner credentials as specified in the
-          learner credential wallet specification developed by the Digital
-          Credentials Consortium.
-        </Text>
-        <Text style={styles.paragraphCenter} accessibilityRole="link">
-          Need help getting started?{'\n'}
-          <Text
-            style={styles.link}
-            onPress={() =>
-              Linking.openURL('https://lcw.app/faq.html#userguide')
-            }
-          >
-            https://lcw.app/faq.html#userguide
-          </Text>
+          storing, verifying, and sharing digital learner credentials.
         </Text>
       </ScrollView>
     </>
