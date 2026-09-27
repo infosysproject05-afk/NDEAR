@@ -5,12 +5,14 @@ const mixins = (theme: ThemeType) => {
   const sharedMixins = StyleSheet.create({
     shadow: {
       overflow: 'visible' as ViewStyle['overflow'],
-      elevation: 5,
+      elevation: 6,
       shadowColor: theme.color.shadow,
       shadowOpacity: theme.shadowOpacity,
-      shadowRadius: 15,
+      // A wider, lower-offset blur reads as a soft lift rather than a hard drop
+      // shadow — the previous 15/5 pairing looked stamped on at this radius.
+      shadowRadius: 18,
       shadowOffset: {
-        height: 5,
+        height: 6,
         width: 0
       },
       backgroundColor: theme.color.backgroundPrimary
@@ -150,6 +152,8 @@ const mixins = (theme: ThemeType) => {
     input: {
       fontSize: theme.fontSize.regular,
       backgroundColor: theme.color.backgroundPrimary,
+      borderRadius: theme.borderRadius,
+      paddingHorizontal: 14,
       height: 48
     },
 

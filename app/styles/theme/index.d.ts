@@ -24,6 +24,8 @@ export type ThemeType = {
     success: Color
     error: Color
     warning: Color
+    warningEmphasis: Color
+    warningSurface: Color
     errorLight: Color
     transparent: Color
     switchActive: Color

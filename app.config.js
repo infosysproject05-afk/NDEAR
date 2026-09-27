@@ -67,11 +67,11 @@ export default {
     scheme: 'exp+learner-credential-wallet',
     orientation: 'portrait',
     icon: './app/assets/icon.png',
-    backgroundColor: '#1F2937',
+    backgroundColor: '#1D2133',
     splash: {
       image: './app/assets/splash.png',
       resizeMode: 'contain',
-      backgroundColor: '#1F2937'
+      backgroundColor: '#1D2133'
     },
     updates: {
       fallbackToCacheTimeout: 0
@@ -100,7 +100,7 @@ export default {
       versionCode: BUILD_NUMBER,
       adaptiveIcon: {
         foregroundImage: './app/assets/adaptive-icon.png',
-        backgroundColor: '#1F2937'
+        backgroundColor: '#1D2133'
       },
       intentFilters: [
         {

@@ -129,6 +129,7 @@ export default function PresentationPreviewScreen({
           screenMode: PublicLinkScreenMode.ShareCredential
         })
       } catch (err) {
+        console.error('[PublicLink Error]:', err)
         clearGlobalModal()
         await displayGlobalModal({
           title: 'Unable to Create Public Link',

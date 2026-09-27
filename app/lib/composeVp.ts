@@ -53,13 +53,16 @@ export async function composeVp({
     verify: false
   })
 
+  const suite = new Ed25519Signature2020({
+    signer: selectedProfile.signers.authentication
+  })
+  ;(suite as any).canonizeOptions = { safe: false }
+
   return await vc.signPresentation({
     presentation,
     challenge,
     domain,
     documentLoader,
-    suite: new Ed25519Signature2020({
-      signer: selectedProfile.signers.authentication
-    })
+    suite
   })
 }

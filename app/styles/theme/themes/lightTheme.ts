@@ -6,30 +6,32 @@ import { ColorScheme } from '../../colorScheme'
 export const lightTheme: ThemeType = {
   name: 'LightTheme',
   color: {
-    linkColor: Color.Blue,
+    linkColor: Color.Indigo,
     backgroundPrimary: Color.Gray100,
     backgroundSecondary: Color.White,
     foregroundPrimary: Color.White,
-    textHeader: Color.Blue,
+    textHeader: Color.Indigo,
     textPrimary: Color.Gray700,
-    brightAccent: Color.Blue,
-    textSecondary: Color.Gray700,
+    brightAccent: Color.Indigo,
+    textSecondary: Color.Gray600,
     textPrimaryDark: Color.White,
     iconActive: Color.Gray700,
     iconInactive: Color.Gray500,
     inputInactive: Color.Gray600,
-    buttonPrimary: Color.Blue,
+    buttonPrimary: Color.Indigo,
     buttonSecondary: Color.Gray300,
     buttonDisabled: Color.Gray500,
-    shadow: Color.Black,
+    shadow: Color.Gray900,
     success: Color.DarkGreen,
     error: Color.Red,
-    warning: Color.Yellow,
+    warning: Color.Amber,
+    warningEmphasis: Color.DarkAmber,
+    warningSurface: Color.AmberSurfaceLight,
     errorLight: Color.DarkRed,
     transparent: Color.Transparent,
-    switchActive: Color.Blue,
+    switchActive: Color.Indigo,
     modalBackground: Color.Gray400,
-    highlightAndroid: Color.TransparentBlue
+    highlightAndroid: Color.TransparentIndigoDeep
   },
   fontFamily: {
     regular: FontFamily.RubikRegular,
@@ -44,10 +46,12 @@ export const lightTheme: ThemeType = {
     regular: 16,
     small: 12
   },
-  borderRadius: 5,
+  borderRadius: 14,
   iconSize: 24,
   issuerIconSize: 48,
   statusBarStyle: ColorScheme.Dark,
   keyboardAppearance: ColorScheme.Light,
-  shadowOpacity: 0.1
+  // Tinted shadow (Gray900, not pure black) so cards settle onto the surface
+  // instead of looking cut out of it.
+  shadowOpacity: 0.08
 }

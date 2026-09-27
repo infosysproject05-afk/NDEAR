@@ -84,10 +84,10 @@ export default createDynamicStyleSheet(({ theme, mixins }) => ({
   warningText: {
     fontSize: theme.fontSize.small,
     fontFamily: theme.fontFamily.regular,
-    color: '#856404',
-    backgroundColor: '#FFF3CD',
-    padding: 8,
-    borderRadius: 4,
+    color: theme.color.warningEmphasis,
+    backgroundColor: theme.color.warningSurface,
+    padding: 12,
+    borderRadius: theme.borderRadius,
     marginBottom: 12
   }
 }))

@@ -27,43 +27,13 @@ For React Native environment:
 
 ## Installation Steps :walking:
 
-### 1. Fork it :fork_and_knife:
+### 1. Clone it :busts_in_silhouette:
 
-You can get your own fork/copy of [Learning-Credential-Wallet](https://github.com/digitalcredentials/learner-credential-wallet) by using the <kbd><b>Fork</b></kbd> button.
-
-### 2. Clone it :busts_in_silhouette:
-
-You need to clone (download) it to a local machine using
+Clone the repository to your local machine:
 
 ```sh
-git clone https://github.com/Your_Username/learner-credential-wallet.git
-```
-
-> This makes a local copy of the repository in your machine.
-
-Once you have cloned the `learner-credential-wallet` repository in GitHub, move to that folder first using the change directory command.
-
-This will change directory to a folder
-
-```sh
-cd learner-credential-wallet
-```
-
-Move to this folder for all other commands.
-
-### 3. Set it up :arrow_up:
-
-Run the following commands to see that _your local copy_ has a reference to _your forked remote repository_ in GitHub :octocat:
-
-```sh
-git remote -v
-```
-
-By running the above command, you can see that the local copy has a reference to the forked remote repository in GitHub.
-
-```
-origin  https://github.com/Your_Username/learner-credential-wallet.git (fetch)
-origin  https://github.com/Your_Username/learner-credential-wallet.git (push)
+git clone https://github.com/infosysproject05-afk/NDEAR.git
+cd NDEAR
 ```
 
 ### 4. Run it :checkered_flag:

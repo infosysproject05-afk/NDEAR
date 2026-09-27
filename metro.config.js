@@ -24,4 +24,11 @@ config.resolver.alias = {
 // Add support for Realm binary files
 config.resolver.assetExts.push('realm')
 
+// Blocklist native build output and CMake temporary folders from Metro watcher
+config.resolver.blockList = [
+  /.*[/\\]android[/\\]\.cxx[/\\].*/,
+  /.*[/\\]android[/\\]app[/\\]build[/\\].*/,
+  /.*[/\\]node_modules[/\\][.\w-]+[/\\]android[/\\]\.cxx[/\\].*/
+]
+
 module.exports = config

@@ -1,5 +1,12 @@
 import React, { useState } from 'react'
-import { Text, View, FlatList, AccessibilityInfo, Linking } from 'react-native'
+import {
+  Text,
+  View,
+  FlatList,
+  ScrollView,
+  AccessibilityInfo,
+  Linking
+} from 'react-native'
 import { Button } from 'react-native-elements'
 import { MaterialIcons } from '@expo/vector-icons'
 import { useSelector } from 'react-redux'
@@ -19,6 +26,33 @@ import {
   selectRawCredentialRecords
 } from '../../store/slices/credential'
 import { getCredentialName } from '../../lib/credentialName'
+
+type AddMethod = {
+  icon: React.ComponentProps<typeof MaterialIcons>['name']
+  title: string
+  hint: string
+}
+
+/* Mirrors the routes available on the Add screen, so the empty state teaches
+ * the same three entry points the user will find there.
+ */
+const ADD_METHODS: AddMethod[] = [
+  {
+    icon: 'qr-code-scanner',
+    title: 'Scan a QR code',
+    hint: 'Point your camera at a code from an issuer to receive a credential.'
+  },
+  {
+    icon: 'link',
+    title: 'Open an issuer link',
+    hint: 'Follow a link from a school or employer, then approve the request.'
+  },
+  {
+    icon: 'file-upload',
+    title: 'Import from a file',
+    hint: 'Restore a JSON backup or add a credential you already hold.'
+  }
+]
 
 export default function HomeScreen({
   navigation
@@ -131,6 +165,87 @@ export default function HomeScreen({
     AccessibilityInfo.announceForAccessibility('Credential Deleted')
   }
 
+  function EmptyWallet(): React.ReactElement {
+    return (
+      <ScrollView
+        style={styles.emptyScroll}
+        contentContainerStyle={styles.emptyContent}
+        testID="empty-wallet"
+      >
+        {/* Decorative card stack — stands in for the records that aren't here
+            yet. Hidden from assistive tech, it carries no information. */}
+        <View
+          style={styles.hero}
+          accessibilityElementsHidden
+          importantForAccessibility="no-hide-descendants"
+        >
+          <View style={[styles.heroCard, styles.heroCardBack]} />
+          <View style={[styles.heroCard, styles.heroCardMid]} />
+          <View style={[styles.heroCard, styles.heroCardFront]}>
+            <View style={styles.heroCardTop}>
+              <View style={styles.heroSeal}>
+                <MaterialIcons
+                  name="verified"
+                  size={18}
+                  color={theme.color.brightAccent}
+                />
+              </View>
+              <Text style={styles.heroCardLabel}>VERIFIABLE</Text>
+            </View>
+            <View>
+              <View style={[styles.heroLine, styles.heroLineWide]} />
+              <View style={[styles.heroLine, styles.heroLineNarrow]} />
+            </View>
+          </View>
+        </View>
+
+        <Text style={styles.eyebrow}>NO CREDENTIALS YET</Text>
+        <Text style={styles.header} accessibilityRole="header">
+          Looks like your wallet is empty.
+        </Text>
+        <Text style={styles.emptyBody}>
+          Credentials you add are stored on this device — signed by the issuer,
+          tamper-evident, and shared only when you choose to.
+        </Text>
+
+        <View style={styles.ctaWrapper}>
+          <AddCredentialButton />
+        </View>
+
+        <View style={styles.ruleRow}>
+          <View style={styles.ruleLine} />
+          <Text style={styles.ruleLabel}>THREE WAYS TO ADD</Text>
+          <View style={styles.ruleLine} />
+        </View>
+
+        {ADD_METHODS.map((method, index) => (
+          <View key={method.title}>
+            <View
+              style={styles.step}
+              accessible
+              accessibilityLabel={`${method.title}. ${method.hint}`}
+            >
+              <View style={styles.stepIconWrap}>
+                <MaterialIcons
+                  name={method.icon}
+                  size={20}
+                  color={theme.color.iconActive}
+                />
+              </View>
+              <View style={styles.stepText}>
+                <Text style={styles.stepTitle}>{method.title}</Text>
+                <Text style={styles.stepHint}>{method.hint}</Text>
+              </View>
+            </View>
+            {index < ADD_METHODS.length - 1 && <View style={styles.stepRule} />}
+          </View>
+        ))}
+
+        <LearnMoreLink />
+      </ScrollView>
+    )
+  }
+
   function LearnMoreLink(): React.ReactElement {
     return (
       <View style={styles.learnMoreContainer}>
@@ -151,11 +266,7 @@ export default function HomeScreen({
     <>
       <NavHeader title="Home" testID="Home Screen" />
       {rawCredentialRecords.length === 0 ? (
-        <View style={styles.container}>
-          <Text style={styles.header}>Looks like your wallet is empty.</Text>
-          <AddCredentialButton />
-          <LearnMoreLink />
-        </View>
+        <EmptyWallet />
       ) : (
         <FlatList
           contentContainerStyle={mixins.credentialListContainer}

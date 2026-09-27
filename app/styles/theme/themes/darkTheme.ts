@@ -6,30 +6,32 @@ import { ColorScheme } from '../../colorScheme'
 export const darkTheme: ThemeType = {
   name: 'DarkTheme',
   color: {
-    linkColor: Color.DarkCyan,
+    linkColor: Color.IndigoBright,
     backgroundPrimary: Color.Gray800,
     backgroundSecondary: Color.Gray900,
     foregroundPrimary: Color.Gray700,
-    textHeader: Color.LightCyan,
+    textHeader: Color.IndigoBright,
     textPrimary: Color.Gray100,
-    brightAccent: Color.LightCyan,
+    brightAccent: Color.IndigoBright,
     textSecondary: Color.Gray300,
     textPrimaryDark: Color.Black,
     iconActive: Color.White,
     iconInactive: Color.Gray400,
     inputInactive: Color.Gray400,
-    buttonPrimary: Color.DarkCyan,
+    buttonPrimary: Color.IndigoMid,
     buttonSecondary: Color.Gray600,
     buttonDisabled: Color.Gray500,
     shadow: Color.Black,
     success: Color.Green,
     error: Color.Red,
-    warning: Color.Yellow,
+    warning: Color.Amber,
+    warningEmphasis: Color.Amber,
+    warningSurface: Color.AmberSurfaceDark,
     errorLight: Color.LightRed,
     transparent: Color.Transparent,
-    switchActive: Color.DarkCyan,
+    switchActive: Color.IndigoMid,
     modalBackground: Color.Gray900,
-    highlightAndroid: Color.TransparentCyan
+    highlightAndroid: Color.TransparentIndigo
   },
   fontFamily: {
     regular: FontFamily.RubikRegular,
@@ -44,10 +46,12 @@ export const darkTheme: ThemeType = {
     regular: 16,
     small: 12
   },
-  borderRadius: 5,
+  borderRadius: 14,
   iconSize: 24,
   issuerIconSize: 48,
   statusBarStyle: ColorScheme.Light,
   keyboardAppearance: ColorScheme.Dark,
-  shadowOpacity: 0.15
+  // Dark surfaces swallow a soft shadow; it needs to be much deeper here than
+  // on light to read as elevation at all.
+  shadowOpacity: 0.45
 }

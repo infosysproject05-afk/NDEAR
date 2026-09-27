@@ -38,6 +38,7 @@ export async function createVerifiablePresentation({
     didRecord.verificationKey
   )
   const suite = new Ed25519Signature2020({ key: verificationKeyPair })
+  ;(suite as any).canonizeOptions = { safe: false }
 
   const holder = didRecord.didDocument.id
 
