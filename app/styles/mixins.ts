@@ -5,14 +5,15 @@ const mixins = (theme: ThemeType) => {
   const sharedMixins = StyleSheet.create({
     shadow: {
       overflow: 'visible' as ViewStyle['overflow'],
-      elevation: 6,
+      borderRadius: theme.borderRadius,
+      elevation: 2,
       shadowColor: theme.color.shadow,
       shadowOpacity: theme.shadowOpacity,
       // A wider, lower-offset blur reads as a soft lift rather than a hard drop
       // shadow — the previous 15/5 pairing looked stamped on at this radius.
-      shadowRadius: 18,
+      shadowRadius: 14,
       shadowOffset: {
-        height: 6,
+        height: 4,
         width: 0
       },
       backgroundColor: theme.color.backgroundPrimary
@@ -38,14 +39,17 @@ const mixins = (theme: ThemeType) => {
 
     /* Header mixins */
     headerContainer: {
-      backgroundColor: theme.color.backgroundSecondary,
+      backgroundColor: theme.color.backgroundPrimary,
+      paddingHorizontal: 20,
+      paddingBottom: 14,
       borderBottomWidth: 0,
       zIndex: 1
     },
     headerTitle: {
       color: theme.color.textPrimary,
       fontFamily: theme.fontFamily.bold,
-      fontSize: theme.fontSize.regular
+      fontSize: 18,
+      letterSpacing: -0.4
     },
     headerIcon: {
       color: theme.color.textPrimary,
@@ -70,9 +74,9 @@ const mixins = (theme: ThemeType) => {
     button: {
       backgroundColor: theme.color.iconActive,
       borderRadius: theme.borderRadius,
-      paddingVertical: 12,
+      paddingVertical: 16,
       paddingHorizontal: 18,
-      minHeight: 48
+      minHeight: 54
     },
     buttonPrimary: {
       backgroundColor: theme.color.buttonPrimary,
@@ -102,7 +106,7 @@ const mixins = (theme: ThemeType) => {
     buttonTitle: {
       fontFamily: theme.fontFamily.medium,
       fontSize: theme.fontSize.regular,
-      color: theme.color.backgroundSecondary
+      color: theme.color.textPrimaryDark
     },
     buttonTitleSecondary: {
       fontFamily: theme.fontFamily.medium,
@@ -112,10 +116,12 @@ const mixins = (theme: ThemeType) => {
     buttonIcon: {
       justifyContent: 'space-between',
       backgroundColor: theme.color.foregroundPrimary,
+      borderWidth: 1,
+      borderColor: theme.color.highlightAndroid,
       borderRadius: theme.borderRadius,
-      paddingVertical: 12,
+      paddingVertical: 16,
       paddingHorizontal: 18,
-      minHeight: 48
+      minHeight: 54
     },
     buttonIconContainer: {
       ...sharedMixins.shadow,
@@ -151,15 +157,15 @@ const mixins = (theme: ThemeType) => {
     /* Input mixins */
     input: {
       fontSize: theme.fontSize.regular,
-      backgroundColor: theme.color.backgroundPrimary,
+      backgroundColor: theme.color.foregroundPrimary,
       borderRadius: theme.borderRadius,
-      paddingHorizontal: 14,
-      height: 48
+      paddingHorizontal: 16,
+      height: 56
     },
 
     /* Credential list mixins */
     credentialListContainer: {
-      padding: 16
+      padding: 20
     },
 
     flex: {

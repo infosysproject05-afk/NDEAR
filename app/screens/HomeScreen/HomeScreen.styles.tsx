@@ -1,16 +1,95 @@
 import { createDynamicStyleSheet } from '../../lib/dynamicStyles'
 
-/* Home — empty state follows the "editorial ledger" direction that the colour
- * tokens already imply: iron-gall ink as the single accent, warm-slate
- * surfaces, Rubik Bold for the voice and RobotoMono for the marginalia
- * (eyebrow, section rule). Spacing sits on a 4px grid.
- */
 export default createDynamicStyleSheet(({ mixins, theme }) => ({
+  addButton: {
+    minHeight: 56,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  dashboardEyebrow: {
+    fontFamily: theme.fontFamily.medium,
+    fontSize: 11,
+    letterSpacing: 2,
+    color: theme.color.brightAccent,
+    marginTop: 8,
+    marginBottom: 8
+  },
+  dashboardTitle: {
+    fontFamily: theme.fontFamily.bold,
+    fontSize: 34,
+    letterSpacing: -1,
+    color: theme.color.textPrimary,
+    marginBottom: 22
+  },
+  summaryCard: {
+    backgroundColor: '#30235E',
+    borderRadius: 26,
+    padding: 24,
+    overflow: 'hidden',
+    marginBottom: 16
+  },
+  summaryOrb: {
+    position: 'absolute',
+    right: -65,
+    top: 25,
+    width: 220,
+    height: 220,
+    borderRadius: 110,
+    borderWidth: 35,
+    borderColor: '#493578'
+  },
+  summaryTop: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  summaryLabel: {
+    fontFamily: theme.fontFamily.medium,
+    fontSize: 10,
+    letterSpacing: 1.5,
+    color: '#D8CCFF',
+    flex: 1
+  },
+  summaryCount: {
+    fontFamily: theme.fontFamily.bold,
+    fontSize: 52,
+    color: '#FFFFFF',
+    marginTop: 12
+  },
+  summaryCaption: {
+    fontFamily: theme.fontFamily.regular,
+    fontSize: 14,
+    color: '#E7DFFF'
+  },
+  summaryBottom: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 24,
+    gap: 8
+  },
+  summaryNote: {
+    fontFamily: theme.fontFamily.regular,
+    fontSize: 12,
+    color: '#D8CCFF'
+  },
+  collectionTitle: {
+    fontFamily: theme.fontFamily.bold,
+    fontSize: 20,
+    color: theme.color.textPrimary,
+    marginTop: 24,
+    marginBottom: 6
+  },
+  collectionHint: {
+    fontFamily: theme.fontFamily.regular,
+    fontSize: 12,
+    color: theme.color.textSecondary,
+    marginBottom: 12
+  },
   /* Plain empty-state box, shared with ProfileCredentialScreen. */
   container: {
     flex: 1,
     paddingHorizontal: 24,
-    paddingTop: 28
+    paddingTop: 16
   },
 
   /* ---------- empty state: shell ---------- */
@@ -21,74 +100,8 @@ export default createDynamicStyleSheet(({ mixins, theme }) => ({
   emptyContent: {
     flexGrow: 1,
     paddingHorizontal: 24,
-    paddingTop: 28,
+    paddingTop: 16,
     paddingBottom: 40
-  },
-
-  /* ---------- empty state: card-stack motif ----------
-   * Three offset rectangles read as a short stack of records. Decorative
-   * only — hidden from assistive tech in the component.
-   */
-  hero: {
-    height: 172,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 36
-  },
-  heroCard: {
-    position: 'absolute',
-    width: 224,
-    height: 136,
-    borderRadius: theme.borderRadius + 4
-  },
-  heroCardBack: {
-    backgroundColor: theme.color.foregroundPrimary,
-    opacity: 0.4,
-    transform: [{ rotate: '-9deg' }, { translateY: 8 }]
-  },
-  heroCardMid: {
-    backgroundColor: theme.color.foregroundPrimary,
-    opacity: 0.7,
-    transform: [{ rotate: '-4.5deg' }, { translateY: 4 }]
-  },
-  heroCardFront: {
-    ...mixins.shadow,
-    backgroundColor: theme.color.backgroundSecondary,
-    borderWidth: 1,
-    borderColor: theme.color.highlightAndroid,
-    padding: 18,
-    justifyContent: 'space-between'
-  },
-  heroCardTop: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  heroSeal: {
-    width: 34,
-    height: 34,
-    borderRadius: 11,
-    backgroundColor: theme.color.highlightAndroid,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 12
-  },
-  heroCardLabel: {
-    fontFamily: theme.fontFamily.mono,
-    fontSize: theme.fontSize.small,
-    color: theme.color.textSecondary,
-    letterSpacing: 2
-  },
-  heroLine: {
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: theme.color.foregroundPrimary
-  },
-  heroLineWide: {
-    width: '72%',
-    marginBottom: 8
-  },
-  heroLineNarrow: {
-    width: '44%'
   },
 
   /* ---------- empty state: copy ---------- */
@@ -101,9 +114,10 @@ export default createDynamicStyleSheet(({ mixins, theme }) => ({
   },
   header: {
     fontFamily: theme.fontFamily.bold,
-    fontSize: theme.fontSize.header,
+    fontSize: 32,
+    letterSpacing: -1,
     color: theme.color.textHeader,
-    lineHeight: 32,
+    lineHeight: 40,
     marginBottom: 12
   },
   emptyBody: {
@@ -136,13 +150,16 @@ export default createDynamicStyleSheet(({ mixins, theme }) => ({
   step: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    paddingVertical: 14
+    padding: 16,
+    borderRadius: theme.borderRadius,
+    backgroundColor: theme.color.foregroundPrimary,
+    marginBottom: 10
   },
   stepIconWrap: {
     width: 40,
     height: 40,
     borderRadius: 12,
-    backgroundColor: theme.color.foregroundPrimary,
+    backgroundColor: theme.color.highlightAndroid,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 16
@@ -171,7 +188,7 @@ export default createDynamicStyleSheet(({ mixins, theme }) => ({
 
   /* ---------- credential list view ---------- */
   swipeItemOuter: {
-    ...mixins.shadow
+    borderRadius: theme.borderRadius
   },
   swipeItem: {
     overflow: 'hidden'

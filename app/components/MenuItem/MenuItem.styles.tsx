@@ -2,12 +2,16 @@ import { createDynamicStyleSheet } from '../../lib/dynamicStyles'
 
 export default createDynamicStyleSheet(({ theme }) => ({
   menuItemTitle: {
-    color: theme.color.textPrimary
+    color: theme.color.textPrimary,
+    fontFamily: theme.fontFamily.medium,
+    fontSize: theme.fontSize.regular
   },
   menuItemContainer: {
     backgroundColor: theme.color.foregroundPrimary,
-    borderBottomColor: theme.color.backgroundPrimary,
-    borderBottomWidth: 2,
+    borderColor: theme.color.highlightAndroid,
+    borderWidth: 1,
+    borderRadius: theme.borderRadius,
+    marginVertical: 5,
     padding: 20
   }
 }))

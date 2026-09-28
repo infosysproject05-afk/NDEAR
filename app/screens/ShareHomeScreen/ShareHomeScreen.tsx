@@ -4,6 +4,8 @@ import { Text, Button } from 'react-native-elements'
 import { MaterialIcons } from '@expo/vector-icons'
 
 import { LoadingIndicatorDots, NavHeader } from '../../components'
+import ScreenIntro from '../../components/ScreenIntro/ScreenIntro'
+
 import dynamicStyleSheet from './ShareHomeScreen.styles'
 import { ShareHomeScreenProps } from '../../navigation'
 import { useDynamicStyles } from '../../hooks'
@@ -153,6 +155,12 @@ export default function ShareHomeScreen({
         style={styles.container}
         contentContainerStyle={styles.contentContainer}
       >
+        <ScreenIntro
+          eyebrow="OPEN NEW DOORS"
+          title="Your achievements, shared."
+          description="Choose what to share and how to send it. Your next opportunity starts with your story."
+          icon="ios-share"
+        />
         <Button
           title="Create a public link"
           buttonStyle={mixins.buttonIcon}

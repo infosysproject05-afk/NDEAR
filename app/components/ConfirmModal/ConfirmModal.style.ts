@@ -10,17 +10,17 @@ export default createDynamicStyleSheet(({ theme, mixins }) => ({
   modalOuterContainer: {
     flex: 1,
     justifyContent: 'center',
-    padding: 16
+    padding: 24
   },
   modalContainer: {
     backgroundColor: theme.color.foregroundPrimary,
-    padding: 16,
-    borderRadius: theme.borderRadius
+    padding: 24,
+    borderRadius: 28
   },
   modalTitle: {
     color: theme.color.textPrimary,
     fontFamily: theme.fontFamily.bold,
-    fontSize: theme.fontSize.regular,
+    fontSize: theme.fontSize.medium,
     marginVertical: 8,
     textAlign: 'center'
   },

@@ -5,8 +5,8 @@ export default createDynamicStyleSheet(({ theme }) => ({
     flex: 1
   },
   contentContainer: {
-    paddingHorizontal: 16,
-    paddingVertical: 16
+    paddingHorizontal: 24,
+    paddingVertical: 24
   },
   credentialList: {
     borderRadius: theme.borderRadius,
@@ -14,7 +14,9 @@ export default createDynamicStyleSheet(({ theme }) => ({
   },
   paragraph: {
     fontSize: 14,
-    color: theme.color.textPrimary,
+    fontFamily: theme.fontFamily.regular,
+    lineHeight: 22,
+    color: theme.color.textSecondary,
     marginTop: 8
   },
   sendButton: {

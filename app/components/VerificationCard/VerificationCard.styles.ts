@@ -14,7 +14,9 @@ export default createDynamicStyleSheet(({ theme, mixins }) => ({
     backgroundColor: theme.color.backgroundSecondary,
     borderRadius: theme.borderRadius,
     marginTop: 16,
-    padding: 16,
+    padding: 20,
+    borderWidth: 1,
+    borderColor: theme.color.highlightAndroid,
     justifyContent: 'space-between'
   },
   proofText: {

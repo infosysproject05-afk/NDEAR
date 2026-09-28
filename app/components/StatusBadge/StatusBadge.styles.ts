@@ -6,14 +6,15 @@ export default createDynamicStyleSheet(({ theme }) => ({
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'flex-start',
-    paddingHorizontal: 7,
+    paddingHorizontal: 9,
     marginHorizontal: 2,
-    height: 20,
+    minHeight: 24,
+    paddingVertical: 3,
     marginBottom: 4
   },
   icon: {
     marginRight: 4,
-    marginLeft: -5
+    marginLeft: 0
   },
   label: {
     fontFamily: theme.fontFamily.medium,

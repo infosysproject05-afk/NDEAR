@@ -16,6 +16,9 @@ import { CredentialItem, NavHeader, ConfirmModal } from '../../components'
 import { navigationRef } from '../../navigation/navigationRef'
 import { LinkConfig } from '../../../app.config'
 
+import WalletArtwork from '../../components/WalletArtwork/WalletArtwork'
+import Motion from '../../components/Motion/Motion'
+
 import dynamicStyleSheet from './HomeScreen.styles'
 import { HomeScreenProps, RenderItemProps } from './HomeScreen.d'
 import { CredentialRecordRaw } from '../../model'
@@ -140,18 +143,18 @@ export default function HomeScreen({
     return (
       <Button
         title="Add Credential"
-        buttonStyle={mixins.buttonIcon}
+        buttonStyle={[mixins.buttonPrimary, styles.addButton]}
         containerStyle={[mixins.buttonIconContainer, mixins.noFlex]}
-        titleStyle={mixins.buttonIconTitle}
+        titleStyle={mixins.buttonTitle}
         onPress={goToCredentialAdd}
         iconRight
         testID="Add Credential"
         accessibilityLabel="Add Credential"
         icon={
           <MaterialIcons
-            name="add-circle"
+            name="add-circle-outline"
             size={theme.iconSize}
-            color={theme.color.iconInactive}
+            color={theme.color.textPrimaryDark}
           />
         }
       />
@@ -172,38 +175,14 @@ export default function HomeScreen({
         contentContainerStyle={styles.emptyContent}
         testID="empty-wallet"
       >
-        {/* Decorative card stack — stands in for the records that aren't here
-            yet. Hidden from assistive tech, it carries no information. */}
-        <View
-          style={styles.hero}
-          accessibilityElementsHidden
-          importantForAccessibility="no-hide-descendants"
-        >
-          <View style={[styles.heroCard, styles.heroCardBack]} />
-          <View style={[styles.heroCard, styles.heroCardMid]} />
-          <View style={[styles.heroCard, styles.heroCardFront]}>
-            <View style={styles.heroCardTop}>
-              <View style={styles.heroSeal}>
-                <MaterialIcons
-                  name="verified"
-                  size={18}
-                  color={theme.color.brightAccent}
-                />
-              </View>
-              <Text style={styles.heroCardLabel}>VERIFIABLE</Text>
-            </View>
-            <View>
-              <View style={[styles.heroLine, styles.heroLineWide]} />
-              <View style={[styles.heroLine, styles.heroLineNarrow]} />
-            </View>
-          </View>
-        </View>
+        <WalletArtwork />
 
-        <Text style={styles.eyebrow}>NO CREDENTIALS YET</Text>
+        <Text style={styles.eyebrow}>YOUR JOURNEY STARTS HERE</Text>
         <Text style={styles.header} accessibilityRole="header">
-          Looks like your wallet is empty.
+          Big achievements. One little wallet.
         </Text>
         <Text style={styles.emptyBody}>
+          Looks like your wallet is empty.{'\n\n'}
           Credentials you add are stored on this device — signed by the issuer,
           tamper-evident, and shared only when you choose to.
         </Text>
@@ -246,6 +225,43 @@ export default function HomeScreen({
     )
   }
 
+  function WalletSummary(): React.ReactElement {
+    return (
+      <Motion>
+        <Text style={styles.dashboardEyebrow}>YOUR PERSONAL COLLECTION</Text>
+        <Text style={styles.dashboardTitle} accessibilityRole="header">
+          My wallet
+        </Text>
+        <View style={styles.summaryCard}>
+          <View style={styles.summaryOrb} pointerEvents="none" />
+          <View style={styles.summaryTop}>
+            <Text style={styles.summaryLabel}>A WORLD OF POTENTIAL</Text>
+            <MaterialIcons
+              name="account-balance-wallet"
+              size={28}
+              color="#D8CCFF"
+            />
+          </View>
+          <Text style={styles.summaryCount}>{rawCredentialRecords.length}</Text>
+          <Text style={styles.summaryCaption}>
+            {rawCredentialRecords.length === 1
+              ? 'credential in your wallet'
+              : 'credentials in your wallet'}
+          </Text>
+          <View style={styles.summaryBottom}>
+            <MaterialIcons name="school" size={18} color="#D8CCFF" />
+            <Text style={styles.summaryNote}>Your learning. Your story.</Text>
+          </View>
+        </View>
+        <AddCredentialButton />
+        <Text style={styles.collectionTitle}>Your credentials</Text>
+        <Text style={styles.collectionHint}>
+          Swipe a card to share or remove it.
+        </Text>
+      </Motion>
+    )
+  }
+
   function LearnMoreLink(): React.ReactElement {
     return (
       <View style={styles.learnMoreContainer}>
@@ -273,7 +289,7 @@ export default function HomeScreen({
           data={rawCredentialRecords}
           renderItem={renderItem}
           keyExtractor={(item, index) => `${index}-${item._id}`}
-          ListHeaderComponent={<AddCredentialButton />}
+          ListHeaderComponent={<WalletSummary />}
           ListFooterComponent={<LearnMoreLink />}
         />
       )}

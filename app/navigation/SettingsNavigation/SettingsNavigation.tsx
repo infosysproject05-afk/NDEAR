@@ -1,21 +1,13 @@
 import React, { useState } from 'react'
-import {
-  ScrollView,
-  Image,
-  Linking,
-  AccessibilityInfo,
-  Switch,
-  View,
-  Text
-} from 'react-native'
+import { ScrollView, AccessibilityInfo, Switch, View, Text } from 'react-native'
 import { ListItem } from 'react-native-elements'
 import { useSelector } from 'react-redux'
 import { createStackNavigator } from '@react-navigation/stack'
-import DeviceInfo from 'react-native-device-info'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
-import appConfig, { FEATURE_FLAGS, WAS, LinkConfig } from '../../../app.config'
-import walletImage from '../../assets/wallet.png'
+import { FEATURE_FLAGS, WAS } from '../../../app.config'
+import ScreenIntro from '../../components/ScreenIntro/ScreenIntro'
+
 import dynamicStyleSheet from './SettingsNavigation.styles'
 import { NavHeader, ConfirmModal, BackupItemModal } from '../../components'
 import {
@@ -27,7 +19,6 @@ import {
 import {
   SettingsItemProps,
   SettingsProps,
-  AboutProps,
   SettingsNavigationParamList
 } from './SettingsNavigation.d'
 import {
@@ -36,7 +27,6 @@ import {
   DeveloperScreen,
   ManageProfilesScreen,
   RestoreWalletScreen,
-  HelpScreen,
   CredentialScreen,
   PublicLinkScreen
 } from '../../screens'
@@ -152,6 +142,12 @@ function Settings({ navigation }: SettingsProps): React.ReactElement {
     <>
       <NavHeader title="Settings" testID="Settings" />
       <ScrollView contentContainerStyle={styles.settingsContainer}>
+        <ScreenIntro
+          eyebrow="MAKE IT YOURS"
+          title="Your wallet. Your way."
+          description="Manage your profiles, security, and backups in one place."
+          icon="tune"
+        />
         <SettingsItem
           key="biometrics"
           title="Use biometrics to unlock"
@@ -185,16 +181,6 @@ function Settings({ navigation }: SettingsProps): React.ReactElement {
           title="Reset wallet"
           onPress={() => setResetModalOpen(true)}
         />
-        <SettingsItem
-          key="help"
-          title="Help"
-          onPress={() => navigation.navigate('Help')}
-        />
-        <SettingsItem
-          key="about"
-          title="About"
-          onPress={() => navigation.navigate('About')}
-        />
         {FEATURE_FLAGS.passwordProtect && (
           <SettingsItem
             key="signout"
@@ -218,61 +204,6 @@ function Settings({ navigation }: SettingsProps): React.ReactElement {
         backupItemName="Wallet"
         backupModalText="This will backup your wallet contents into a file for you to download."
       />
-    </>
-  )
-}
-
-function About({ navigation }: AboutProps): React.ReactElement {
-  const { styles } = useDynamicStyles(dynamicStyleSheet)
-  const version = DeviceInfo.getVersion()
-  const buildNumber = DeviceInfo.getBuildNumber()
-
-  function goToDeveloperScreen() {
-    navigation.navigate('DeveloperScreen')
-  }
-
-  return (
-    <>
-      <NavHeader
-        goBack={() => navigation.navigate('Settings')}
-        title="About"
-        testID="About"
-      />
-      <ScrollView contentContainerStyle={styles.bodyContainerCenter}>
-        <Image
-          style={styles.image}
-          source={walletImage}
-          accessible
-          accessibilityLabel={`${appConfig.displayName} Logo`}
-        />
-        <Text style={styles.aboutTitleBolded}>{appConfig.displayName}</Text>
-        <Text style={styles.paragraphCenter}>
-          This mobile wallet was developed by the Digital Credentials
-          Consortium, a network of leading international universities designing
-          an open infrastructure for academic credentials.
-        </Text>
-        <Text style={styles.paragraphCenter} accessibilityRole="link">
-          More information at&nbsp;
-          <Text
-            style={styles.link}
-            onPress={() => Linking.openURL(LinkConfig.appWebsite.home)}
-          >
-            {LinkConfig.appWebsite.home}
-          </Text>
-          .
-        </Text>
-        <Text style={styles.paragraphCenter}>
-          Copyright 2021-2025 Massachusetts Institute of Technology
-        </Text>
-        <TouchableOpacity
-          onPress={goToDeveloperScreen}
-          testID="version-build-button"
-        >
-          <Text style={styles.paragraphCenter}>
-            v{version} - Build {buildNumber}
-          </Text>
-        </TouchableOpacity>
-      </ScrollView>
     </>
   )
 }
@@ -307,8 +238,6 @@ export default function SettingsNavigation({
         name="RestoreWalletScreen"
         component={RestoreWalletScreen}
       />
-      <Stack.Screen name="Help" component={HelpScreen} />
-      <Stack.Screen name="About" component={About} />
       <Stack.Screen name="DeveloperScreen" component={DeveloperScreen} />
       {WAS.enabled && (
         <>

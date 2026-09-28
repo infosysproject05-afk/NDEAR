@@ -37,5 +37,6 @@ export type SettingsNavigationProps = BottomTabScreenProps<
 >
 
 export type TabIconProps = {
+  focused?: boolean
   color: string
 }

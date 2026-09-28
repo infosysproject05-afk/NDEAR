@@ -1,15 +1,10 @@
 export enum Color {
-  /* Brand — iron-gall ink.
-   * Academic records were written in iron-gall ink, which oxidises from
-   * blue-black toward violet. That's the brand axis: a deep indigo-violet for
-   * light surfaces, a lifted violet for dark ones. It is deliberately kept
-   * clear of the green/amber/red band so the accent never reads as a status.
-   */
-  Indigo = '#4F46B8',
-  IndigoMid = '#7B73E8',
-  IndigoBright = '#A5A0F5',
-  TransparentIndigo = 'rgba(123, 115, 232, 0.28)',
-  TransparentIndigoDeep = 'rgba(79, 70, 184, 0.28)',
+  /* Violet accents, soft lavender surfaces, and midnight dark mode. */
+  Indigo = '#6845D9',
+  IndigoMid = '#B39AF9',
+  IndigoBright = '#C5B4FF',
+  TransparentIndigo = 'rgba(179, 154, 249, 0.14)',
+  TransparentIndigoDeep = 'rgba(104, 69, 217, 0.09)',
 
   /* Status — a credential is valid, expiring, or refused. These carry meaning,
    * so they stay legible against both surface families and never double as
@@ -41,13 +36,13 @@ export enum Color {
    * a neutral gray ramp. Surfaces then feel related to the brand instead of
    * sitting under it.
    */
-  Gray100 = '#F4F5F8',
-  Gray200 = '#E6E8EF',
-  Gray300 = '#CFD3DF',
-  Gray400 = '#9BA1B4',
-  Gray500 = '#6E7488',
-  Gray600 = '#4A5064',
-  Gray700 = '#2E3346',
-  Gray800 = '#1D2133',
-  Gray900 = '#121524'
+  Gray100 = '#F6F5FA',
+  Gray200 = '#E9E5F1',
+  Gray300 = '#D5D0E3',
+  Gray400 = '#A6A0B8',
+  Gray500 = '#767087',
+  Gray600 = '#625B74',
+  Gray700 = '#29253D',
+  Gray800 = '#171425',
+  Gray900 = '#100D1B'
 }

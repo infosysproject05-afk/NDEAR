@@ -1,5 +1,5 @@
-import React from 'react'
-import { Platform } from 'react-native'
+import React, { useEffect, useRef } from 'react'
+import { Animated, Platform } from 'react-native'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { MaterialIcons } from '@expo/vector-icons'
@@ -11,6 +11,7 @@ import SettingsNavigation from '../SettingsNavigation/SettingsNavigation'
 import type { HomeNavigationParamList, TabIconProps } from './HomeNavigation.d'
 import AddNavigation from '../AddNavigation/AddNavigation'
 import { useDynamicStyles } from '../../hooks'
+import { useReducedMotion } from '../../components/Motion/Motion'
 
 const Tab = createBottomTabNavigator<HomeNavigationParamList>()
 
@@ -23,10 +24,12 @@ export default function HomeNavigation(): React.ReactElement {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarShowLabel: false,
+        tabBarShowLabel: true,
+        tabBarLabelStyle: styles.label,
+        tabBarItemStyle: styles.item,
         unmountOnBlur: true,
         tabBarStyle: styles.barStyle,
-        tabBarActiveTintColor: theme.color.iconActive,
+        tabBarActiveTintColor: theme.color.brightAccent,
         tabBarInactiveTintColor: theme.color.iconInactive
       }}
     >
@@ -71,29 +74,57 @@ export default function HomeNavigation(): React.ReactElement {
   )
 }
 
-const HomeTabIcon = ({ color }: TabIconProps) => {
+function TabGlyph({
+  color,
+  focused = false,
+  name,
+  testID
+}: TabIconProps & {
+  focused?: boolean
+  name: React.ComponentProps<typeof MaterialIcons>['name']
+  testID?: string
+}) {
   const { theme } = useDynamicStyles()
-  return <MaterialIcons name="home" color={color} size={theme.iconSize} />
-}
-
-const ShareTabIcon = ({ color }: TabIconProps) => {
-  const { theme } = useDynamicStyles()
-  return <MaterialIcons name="share" color={color} size={theme.iconSize} />
-}
-
-const AddTabIcon = ({ color }: TabIconProps) => {
-  const { theme } = useDynamicStyles()
-  return <MaterialIcons name="add-circle" color={color} size={theme.iconSize} />
-}
-
-const SettingsTabIcon = ({ color }: TabIconProps) => {
-  const { theme } = useDynamicStyles()
+  const reduced = useReducedMotion()
+  const scale = useRef(new Animated.Value(1)).current
+  useEffect(() => {
+    if (reduced) {
+      scale.setValue(1)
+      return
+    }
+    const animation = Animated.spring(scale, {
+      toValue: focused ? 1.08 : 1,
+      speed: 22,
+      bounciness: 5,
+      useNativeDriver: true
+    })
+    animation.start()
+    return () => animation.stop()
+  }, [focused, reduced, scale])
   return (
-    <MaterialIcons
-      name="settings"
-      color={color}
-      size={theme.iconSize}
-      testID="settings-tab-icon"
-    />
+    <Animated.View
+      style={{
+        transform: [{ scale }],
+        backgroundColor: focused ? theme.color.highlightAndroid : 'transparent',
+        borderRadius: 12,
+        paddingHorizontal: 16,
+        paddingVertical: 3
+      }}
+    >
+      <MaterialIcons name={name} color={color} size={22} testID={testID} />
+    </Animated.View>
   )
 }
+
+const HomeTabIcon = (props: TabIconProps) => (
+  <TabGlyph {...props} name="account-balance-wallet" />
+)
+const ShareTabIcon = (props: TabIconProps) => (
+  <TabGlyph {...props} name="ios-share" />
+)
+const AddTabIcon = (props: TabIconProps) => (
+  <TabGlyph {...props} name="add-circle-outline" />
+)
+const SettingsTabIcon = (props: TabIconProps) => (
+  <TabGlyph {...props} name="tune" testID="settings-tab-icon" />
+)

@@ -12,7 +12,7 @@ export default function NavHeader({
   goBack,
   ...headerProps
 }: NavHeaderProps): React.ReactElement {
-  const { mixins } = useDynamicStyles()
+  const { mixins, theme } = useDynamicStyles()
   const [headerRef, focusHeader] = useAccessibilityFocus<Text>()
 
   useEffect(focusHeader, [])
@@ -35,6 +35,11 @@ export default function NavHeader({
 
   return (
     <Header
+      statusBarProps={{
+        backgroundColor: theme.color.backgroundPrimary,
+        barStyle:
+          theme.statusBarStyle === 'light' ? 'light-content' : 'dark-content'
+      }}
       leftContainerStyle={mixins.headerComponentContainer}
       centerContainerStyle={mixins.headerComponentContainer}
       rightContainerStyle={mixins.headerComponentContainer}

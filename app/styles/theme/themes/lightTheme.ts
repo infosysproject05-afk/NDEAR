@@ -10,12 +10,12 @@ export const lightTheme: ThemeType = {
     backgroundPrimary: Color.Gray100,
     backgroundSecondary: Color.White,
     foregroundPrimary: Color.White,
-    textHeader: Color.Indigo,
+    textHeader: Color.Gray900,
     textPrimary: Color.Gray700,
     brightAccent: Color.Indigo,
     textSecondary: Color.Gray600,
     textPrimaryDark: Color.White,
-    iconActive: Color.Gray700,
+    iconActive: Color.Indigo,
     iconInactive: Color.Gray500,
     inputInactive: Color.Gray600,
     buttonPrimary: Color.Indigo,
@@ -30,7 +30,7 @@ export const lightTheme: ThemeType = {
     errorLight: Color.DarkRed,
     transparent: Color.Transparent,
     switchActive: Color.Indigo,
-    modalBackground: Color.Gray400,
+    modalBackground: Color.Gray900,
     highlightAndroid: Color.TransparentIndigoDeep
   },
   fontFamily: {
@@ -40,13 +40,13 @@ export const lightTheme: ThemeType = {
     mono: FontFamily.RobotoMonoRegular
   },
   fontSize: {
-    title: 36,
-    header: 24,
+    title: 34,
+    header: 26,
     medium: 18,
     regular: 16,
     small: 12
   },
-  borderRadius: 14,
+  borderRadius: 20,
   iconSize: 24,
   issuerIconSize: 48,
   statusBarStyle: ColorScheme.Dark,

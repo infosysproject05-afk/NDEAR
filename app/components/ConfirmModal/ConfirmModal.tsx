@@ -11,6 +11,8 @@ import { Button } from 'react-native-elements'
 import { useAccessibilityFocus, useDynamicStyles } from '../../hooks'
 import { ConfirmModalProps } from './ConfirmModal.d'
 
+import { useReducedMotion } from '../Motion/Motion'
+
 import dynamicStyleSheet from './ConfirmModal.style'
 
 /**
@@ -38,6 +40,7 @@ export default function ConfirmModal({
 }: ConfirmModalProps): React.ReactElement {
   const { styles, mixins } = useDynamicStyles(dynamicStyleSheet)
 
+  const reducedMotion = useReducedMotion()
   const [isFirstRender, setIsFirstRender] = useState(true)
   const [titleRef, focusTitle] = useAccessibilityFocus<Text>()
   const [contentRef, focusContent] = useAccessibilityFocus<View>()
@@ -60,7 +63,7 @@ export default function ConfirmModal({
 
   return (
     <Modal
-      animationType="fade"
+      animationType={reducedMotion ? 'none' : 'fade'}
       transparent={true}
       visible={open}
       onRequestClose={onRequestClose}

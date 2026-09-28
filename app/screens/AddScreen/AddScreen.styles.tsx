@@ -2,7 +2,7 @@ import { createDynamicStyleSheet } from '../../lib/dynamicStyles'
 
 export default createDynamicStyleSheet(({ mixins, theme }) => ({
   container: {
-    padding: 16,
+    padding: 24,
     flex: 1
   },
   paragraph: {
@@ -14,7 +14,8 @@ export default createDynamicStyleSheet(({ mixins, theme }) => ({
     ...mixins.buttonPrimary
   },
   sectionContainer: {
-    marginVertical: 4
+    marginTop: 24,
+    marginBottom: 16
   },
   header: {
     ...mixins.headerText,
@@ -24,7 +25,7 @@ export default createDynamicStyleSheet(({ mixins, theme }) => ({
   input: {
     ...mixins.input,
     flex: 1,
-    height: 240,
+    height: 190,
     minHeight: 44,
     zIndex: -1
   },

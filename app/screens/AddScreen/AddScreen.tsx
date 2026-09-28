@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import { AccessibilityInfo, View } from 'react-native'
-import { Text, Button } from 'react-native-elements'
+import { Button } from 'react-native-elements'
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import { TextInput } from 'react-native-paper'
 import { IVerifiableCredential } from '@digitalcredentials/ssi'
+
+import ScreenIntro from '../../components/ScreenIntro/ScreenIntro'
+import Motion from '../../components/Motion/Motion'
 
 import dynamicStyleSheet from './AddScreen.styles'
 import { stageCredentialsForProfile } from '../../store/slices/credentialFoyer'
@@ -179,11 +182,13 @@ export default function AddScreen(): React.ReactElement {
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
       >
-        <View style={styles.container}>
-          <Text style={styles.paragraph}>
-            To add a credential, follow an approved link from an issuer or use
-            the options below.
-          </Text>
+        <Motion style={styles.container}>
+          <ScreenIntro
+            eyebrow="GROW YOUR COLLECTION"
+            title="Make room for your next achievement."
+            description="Scan, upload, or paste a link to bring your next credential into your wallet."
+            icon="add-card"
+          />
           <Button
             title="Scan QR code"
             buttonStyle={mixins.buttonIcon}
@@ -226,6 +231,7 @@ export default function AddScreen(): React.ReactElement {
                 outlineColor={theme.color.iconInactive}
                 selectionColor={theme.color.textPrimary}
                 theme={{
+                  roundness: theme.borderRadius,
                   colors: {
                     placeholder: theme.color.textSecondary,
                     text: theme.color.textPrimary,
@@ -259,7 +265,7 @@ export default function AddScreen(): React.ReactElement {
               />
             </View>
           </View>
-        </View>
+        </Motion>
       </ScrollView>
     </>
   )

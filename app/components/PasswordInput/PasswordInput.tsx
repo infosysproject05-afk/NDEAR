@@ -65,6 +65,7 @@ function PasswordInput(
         }
         selectionColor={selectionColor}
         theme={{
+          roundness: theme.borderRadius,
           colors: {
             placeholder: value
               ? theme.color.textPrimary

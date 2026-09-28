@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, Image, AccessibilityInfo, View } from 'react-native'
+import { Text, AccessibilityInfo, View } from 'react-native'
 import { Button } from 'react-native-elements'
 import { useSelector } from 'react-redux'
 
@@ -10,7 +10,7 @@ import {
   unlockWithBiometrics
 } from '../../store/slices/wallet'
 import { SafeScreenView, ErrorDialog, PasswordInput } from '../../components'
-import walletImage from '../../assets/wallet.png'
+import WalletArtwork from '../../components/WalletArtwork/WalletArtwork'
 
 import dynamicStyleSheet from './LoginScreen.styles'
 import {
@@ -73,12 +73,7 @@ export default function LoginScreen(): React.ReactElement {
 
   return (
     <SafeScreenView style={styles.container}>
-      <Image
-        style={styles.image}
-        source={walletImage}
-        accessible
-        accessibilityLabel={`${appConfig.displayName} Logo`}
-      />
+      <WalletArtwork />
       <Text style={styles.title}>{appConfig.displayName}</Text>
       <Text style={styles.paragraph}>
         A place to store all your credentials. They stay on your device until

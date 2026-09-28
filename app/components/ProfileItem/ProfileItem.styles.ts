@@ -4,7 +4,9 @@ export default createDynamicStyleSheet(({ theme, mixins }) => ({
   container: {
     backgroundColor: theme.color.foregroundPrimary,
     borderRadius: theme.borderRadius,
-    padding: 16,
+    padding: 20,
+    borderWidth: 1,
+    borderColor: theme.color.highlightAndroid,
     marginVertical: 8,
     flexDirection: 'row',
     alignItems: 'center'
@@ -19,7 +21,7 @@ export default createDynamicStyleSheet(({ theme, mixins }) => ({
     marginBottom: 6
   },
   subtitleText: {
-    color: theme.color.textPrimary,
+    color: theme.color.textSecondary,
     fontFamily: theme.fontFamily.regular,
     fontSize: 14
   },

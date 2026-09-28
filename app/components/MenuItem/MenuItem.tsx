@@ -29,12 +29,17 @@ export default function MenuItem({
           <MaterialIcons
             name={icon}
             size={theme.iconSize}
-            color={theme.color.iconInactive}
+            color={theme.color.brightAccent}
           />
         )}
         <View style={{ flex: 1, marginLeft: icon ? 12 : 0 }}>
           <Text style={styles.menuItemTitle}>{title}</Text>
         </View>
+        <MaterialIcons
+          name="chevron-right"
+          size={22}
+          color={theme.color.iconInactive}
+        />
       </View>
     </TouchableHighlight>
   )

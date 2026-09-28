@@ -5,6 +5,6 @@ export default createDynamicStyleSheet(({ theme }) => ({
     backgroundColor: theme.color.backgroundPrimary
   },
   contentContainer: {
-    flex: 1
+    flexGrow: 1
   }
 }))

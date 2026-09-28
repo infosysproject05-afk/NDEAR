@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, Image, AccessibilityInfo } from 'react-native'
+import { Text, View, AccessibilityInfo } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Button, CheckBox } from 'react-native-elements'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -16,7 +16,7 @@ import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator
 import SafeScreenView from '../../components/SafeScreenView/SafeScreenView'
 import AccessibleView from '../../components/AccessibleView/AccessibleView'
 import PasswordForm from '../../components/PasswordForm/PasswordForm'
-import walletImage from '../../assets/wallet.png'
+import WalletArtwork from '../../components/WalletArtwork/WalletArtwork'
 import { useAccessibilityFocus } from '../../hooks'
 
 import dynamicStyleSheet from './SetupNavigation.styles'
@@ -64,12 +64,7 @@ function StartStep({ navigation }: StartStepProps) {
 
   return (
     <SafeScreenView style={[styles.container, styles.containerMiddle]}>
-      <Image
-        style={styles.image}
-        source={walletImage}
-        accessible
-        accessibilityLabel={`${appConfig.displayName} Logo`}
-      />
+      <WalletArtwork />
       <Text style={styles.title} accessibilityRole="header">
         {appConfig.displayName}
       </Text>

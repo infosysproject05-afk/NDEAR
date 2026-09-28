@@ -4,8 +4,10 @@ export default createDynamicStyleSheet(({ theme, mixins }) => ({
   cardContainer: {
     backgroundColor: theme.color.backgroundSecondary,
     borderRadius: theme.borderRadius,
-    paddingVertical: 4,
-    paddingHorizontal: 16
+    paddingVertical: 16,
+    paddingHorizontal: 22,
+    borderWidth: 1,
+    borderColor: theme.color.highlightAndroid
   },
   header: {
     ...mixins.headerText,
@@ -28,6 +30,7 @@ export default createDynamicStyleSheet(({ theme, mixins }) => ({
     marginVertical: 12
   },
   dataLabel: {
+    letterSpacing: 0.7,
     fontSize: theme.fontSize.small,
     fontFamily: theme.fontFamily.bold,
     color: theme.color.textPrimary,

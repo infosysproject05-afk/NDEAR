@@ -15,8 +15,6 @@ export type SettingsItemProps = {
 export type SettingsNavigationParamList = {
   Settings: undefined
   RestoreWalletScreen: undefined
-  About: undefined
-  Help: undefined
   ManageProfilesScreen: undefined
   AddExistingProfileScreen: undefined
   ProfileCredentialScreen: ProfileCredentialScreenParams
@@ -39,7 +37,6 @@ export type RestoreWalletScreenProps = StackScreenProps<
   SettingsNavigationParamList,
   'RestoreWalletScreen'
 >
-export type AboutProps = StackScreenProps<SettingsNavigationParamList, 'About'>
 export type ManageProfilesScreenProps = StackScreenProps<
   SettingsNavigationParamList,
   'ManageProfilesScreen'

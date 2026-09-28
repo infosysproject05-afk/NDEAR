@@ -9,9 +9,10 @@ export default createDynamicStyleSheet(({ theme, mixins }) => ({
   instructionContainer: {
     backgroundColor: theme.color.backgroundPrimary,
     position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
+    left: 16,
+    right: 16,
+    top: 16,
+    borderRadius: theme.borderRadius,
     paddingVertical: 16,
     paddingHorizontal: 4,
     zIndex: 1
@@ -29,7 +30,7 @@ export default createDynamicStyleSheet(({ theme, mixins }) => ({
   },
   markerStyle: {
     borderColor: Color.White,
-    borderRadius: 10,
+    borderRadius: 24,
     borderWidth: 3
   },
   emptyContainer: {

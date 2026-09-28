@@ -5,13 +5,13 @@ export default createDynamicStyleSheet(({ theme, mixins }) => ({
     top: 0,
     right: -10,
     width: 180,
-    borderRadius: 3,
+    borderRadius: 16,
     position: 'absolute',
     overflow: 'hidden',
     zIndex: 1
   },
   container: {
-    padding: 16
+    padding: 20
   },
   header: {
     ...mixins.headerText,

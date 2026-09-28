@@ -16,17 +16,23 @@ export default createDynamicStyleSheet(({ theme, mixins }) => ({
     backgroundColor: theme.color.backgroundPrimary
   },
   settingsContainer: {
+    padding: 20,
+    paddingBottom: 32,
     backgroundColor: theme.color.backgroundPrimary
   },
   listItemTitle: {
-    color: theme.color.textSecondary,
+    color: theme.color.textPrimary,
+    fontFamily: theme.fontFamily.medium,
+    fontSize: 15,
     paddingTop: 8,
     paddingBottom: 8
   },
   listItemContainer: {
-    backgroundColor: theme.color.backgroundPrimary,
-    borderBottomColor: theme.color.backgroundSecondary,
-    borderBottomWidth: 3
+    backgroundColor: theme.color.foregroundPrimary,
+    borderRadius: theme.borderRadius,
+    marginBottom: 8,
+    borderColor: theme.color.highlightAndroid,
+    borderWidth: 1
   },
   listItemContainerDisabled: {
     opacity: 0.5

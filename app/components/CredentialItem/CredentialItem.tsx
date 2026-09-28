@@ -1,5 +1,5 @@
 import React, { ComponentProps, useMemo } from 'react'
-import { View, TouchableOpacity } from 'react-native'
+import { Animated, View, TouchableOpacity } from 'react-native'
 import { Text } from 'react-native-elements'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
@@ -9,6 +9,8 @@ import CredentialStatusBadges from '../CredentialStatusBadges/CredentialStatusBa
 import { useDynamicStyles, useVerifyCredential } from '../../hooks'
 import { credentialItemPropsFor } from '../../lib/credentialDisplay'
 import { CardImage } from '../../lib/credentialDisplay/shared'
+
+import { usePressMotion } from '../Motion/Motion'
 
 type VerificationStatus = 'verifying' | 'verified' | 'warning' | 'not_verified'
 
@@ -28,6 +30,7 @@ function CredentialItem({
 }: CredentialItemProps): React.ReactElement {
   const { styles, theme, mixins } = useDynamicStyles(dynamicStyleSheet)
   const verifyCredential = useVerifyCredential(rawCredentialRecord)
+  const { motionStyle, onPressIn, onPressOut } = usePressMotion()
 
   const {
     title,
@@ -203,9 +206,11 @@ function CredentialItem({
   }
 
   return (
-    <View style={styles.listItemOuterContainer}>
+    <Animated.View style={[styles.listItemOuterContainer, motionStyle]}>
       <TouchableOpacity
         style={styles.listItemContainer}
+        onPressIn={onPressDisabled ? undefined : onPressIn}
+        onPressOut={onPressOut}
         onPress={onPressDisabled ? undefined : onSelect}
         activeOpacity={1}
         accessible={!hasBottomElement}
@@ -233,7 +238,7 @@ function CredentialItem({
           {bottomElement}
         </View>
       </TouchableOpacity>
-    </View>
+    </Animated.View>
   )
 }
 

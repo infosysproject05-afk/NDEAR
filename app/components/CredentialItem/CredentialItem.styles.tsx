@@ -4,11 +4,14 @@ export default createDynamicStyleSheet(({ theme, mixins }) => ({
   listItemContainer: {
     ...mixins.button,
     backgroundColor: theme.color.foregroundPrimary,
-    paddingVertical: mixins.button.paddingVertical,
+    paddingVertical: 20,
     paddingHorizontal: mixins.button.paddingHorizontal,
-    minHeight: 72
+    minHeight: 96,
+    borderWidth: 1,
+    borderColor: theme.color.highlightAndroid
   },
   listItemOuterContainer: {
+    ...mixins.shadow,
     marginVertical: 8,
     borderRadius: mixins.button.borderRadius
   },
@@ -24,14 +27,15 @@ export default createDynamicStyleSheet(({ theme, mixins }) => ({
   },
   listItemTitle: {
     color: theme.color.textPrimary,
-    fontFamily: theme.fontFamily.medium,
+    fontFamily: theme.fontFamily.bold,
     fontSize: theme.fontSize.regular,
     marginBottom: 6
   },
   listItemSubtitle: {
     color: theme.color.textSecondary,
     fontFamily: theme.fontFamily.regular,
-    fontSize: 14
+    fontSize: 13,
+    lineHeight: 20
   },
   notVerifiedIcon: {
     width: theme.issuerIconSize - 8,

@@ -5,7 +5,7 @@ export default createDynamicStyleSheet(({ theme, mixins }) => ({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
+    padding: 24,
     backgroundColor: theme.color.backgroundPrimary
   },
   image: {
@@ -15,14 +15,16 @@ export default createDynamicStyleSheet(({ theme, mixins }) => ({
   title: {
     fontFamily: theme.fontFamily.bold,
     fontSize: theme.fontSize.title,
+    letterSpacing: -1.2,
+    lineHeight: 40,
     color: theme.color.textPrimary,
-    padding: 16,
+    padding: 24,
     textAlign: 'center'
   },
   paragraph: {
     ...mixins.paragraphText,
     textAlign: 'center',
-    marginBottom: 48
+    marginBottom: 28
   },
   passwordEntry: {
     ...mixins.input,
@@ -34,13 +36,13 @@ export default createDynamicStyleSheet(({ theme, mixins }) => ({
   },
   buttonPrimary: {
     backgroundColor: theme.color.buttonPrimary,
-    padding: 16,
+    padding: 24,
     borderRadius: theme.borderRadius
   },
   buttonPrimaryTitle: {
     fontFamily: theme.fontFamily.medium,
     fontSize: theme.fontSize.regular,
-    color: theme.color.backgroundSecondary
+    color: theme.color.textPrimaryDark
   },
   buttonPrimaryContainer: {
     width: '100%',

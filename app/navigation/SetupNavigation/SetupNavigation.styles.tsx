@@ -3,7 +3,7 @@ import { createDynamicStyleSheet } from '../../lib/dynamicStyles'
 export default createDynamicStyleSheet(({ theme, mixins }) => ({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 24,
     alignItems: 'center'
   },
   containerMiddle: {
@@ -16,15 +16,17 @@ export default createDynamicStyleSheet(({ theme, mixins }) => ({
   title: {
     fontFamily: theme.fontFamily.bold,
     fontSize: theme.fontSize.title,
+    letterSpacing: -1.2,
+    lineHeight: 40,
     color: theme.color.textPrimary,
-    padding: 16,
+    padding: 24,
     textAlign: 'center'
   },
   paragraph: {
     ...mixins.paragraphText,
     fontSize: theme.fontSize.medium,
     textAlign: 'center',
-    marginBottom: 48
+    marginBottom: 28
   },
   stepContainer: {
     flexDirection: 'row',
@@ -89,7 +91,7 @@ export default createDynamicStyleSheet(({ theme, mixins }) => ({
   },
   customMethodContainer: {
     flex: 1,
-    padding: 16
+    padding: 24
   },
   customMethodStepContainer: {
     flexDirection: 'row',
