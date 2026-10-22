@@ -11,7 +11,7 @@ const VERSION_NUMBER = env.APP_VERSION_NUMBER || '2.2.10'
 // If you have forked the LCW and are creating your own wallet app version,
 // please supply your own verifier instance below
 export const VERIFIER_INSTANCE_URL =
-  env['VERIFIER_INSTANCE_URL'] || 'https://verifierplus.org'
+  env['VERIFIER_INSTANCE_URL'] || 'https://qr-ndear.vercel.app'
 
 export const WAS = {
   enabled: true,
