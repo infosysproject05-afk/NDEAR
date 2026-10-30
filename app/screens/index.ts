@@ -22,6 +22,7 @@ export { default as DeveloperScreen } from './DeveloperScreen/DeveloperScreen'
 export { default as PublicLinkScreen } from './PublicLinkScreen/PublicLinkScreen'
 export { default as CredentialSelectionScreen } from './CredentialSelectionScreen/CredentialSelectionScreen'
 export { default as IssuerInfoScreen } from './IssuerInfoScreen/IssuerInfoScreen'
+export { default as RecommendationPreferencesScreen } from './RecommendationPreferencesScreen/RecommendationPreferencesScreen'
 
 // Type Definitions
 export * from './DetailsScreen/DetailsScreen.d'
@@ -31,6 +32,7 @@ export * from './IssuerInfoScreen/IssuerInfoScreen.d'
 export * from './CredentialSelectionScreen/CredentialSelectionScreen.d'
 export * from './ProfileSelectionScreen/ProfileSelectionScreen.d'
 export * from './ViewSourceScreen/ViewSourceScreen.d'
+export * from './RecommendationPreferencesScreen/RecommendationPreferencesScreen.d'
 
 // Enum Definitions
 export * from './PublicLinkScreen/PublicLinkScreen'

@@ -191,13 +191,16 @@ export async function unshareCredential(
           await resource.delete({ signer })
         }
       }
-    } else {
       // This is a verifierInstance link
       const unshareUrl = `${publicLinks.server}${publicLinks.url.unshare}`
-      await verifierInstance.deleteCredential(rawCredentialRecord, unshareUrl)
+      try {
+        await verifierInstance.deleteCredential(rawCredentialRecord, unshareUrl)
+      } catch (err) {
+        console.warn('Remote unshare warning:', err)
+      }
     }
   } catch (error) {
-    console.error('Error unsharing credential:', error)
+    console.warn('Error unsharing credential:', error)
   }
   await Cache.getInstance().remove(CacheKey.PublicLinks, vcId)
 }

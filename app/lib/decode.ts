@@ -38,6 +38,10 @@ async function credentialsFromJson(
 ): Promise<IVerifiableCredential[]> {
   const data = JSON.parse(text)
 
+  if (data?.vp && isVerifiablePresentation(data.vp)) {
+    return credentialsFromPresentation(data.vp)
+  }
+
   if (isVerifiablePresentation(data)) {
     return credentialsFromPresentation(data)
   }
@@ -60,8 +64,35 @@ async function credentialsFromJson(
 export async function credentialsFrom(
   text: string
 ): Promise<IVerifiableCredential[]> {
+  text = text.trim()
+
   if (regexPattern.url.test(text)) {
-    const response = await fetch(text)
+    let fetchUrl = text
+
+    // If the scanned URL is a verifier web link with ?vc= or #verify?vc=
+    try {
+      const parsedUrl = new URL(text)
+      const hash = parsedUrl.hash ? parsedUrl.hash.slice(1) : ''
+      const hashParams = new URLSearchParams(
+        hash.includes('?') ? hash.slice(hash.indexOf('?') + 1) : hash
+      )
+      const rawHashVc = /^verify\?vc=(.*)$/s.exec(hash)?.[1]
+      const vcParam = rawHashVc
+        ? decodeURIComponent(rawHashVc)
+        : hashParams.get('vc') || parsedUrl.searchParams.get('vc')
+
+      if (vcParam && /^https?:\/\//i.test(vcParam)) {
+        fetchUrl = vcParam
+      }
+    } catch {
+      // Continue with original url if URL parsing is not applicable
+    }
+
+    const response = await fetch(fetchUrl, {
+      headers: {
+        Accept: 'application/json, application/ld+json'
+      }
+    })
     text = await response.text().then((t) => t.trim())
   }
 

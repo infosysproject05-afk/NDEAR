@@ -29,6 +29,7 @@ import {
   selectRawCredentialRecords
 } from '../../store/slices/credential'
 import { getCredentialName } from '../../lib/credentialName'
+import Recommendations from '../../components/Recommendations/Recommendations'
 
 type AddMethod = {
   icon: React.ComponentProps<typeof MaterialIcons>['name']
@@ -191,6 +192,16 @@ export default function HomeScreen({
           <AddCredentialButton />
         </View>
 
+        <Recommendations
+          credentials={rawCredentialRecords}
+          onOpenPreferences={() =>
+            navigation.navigate('RecommendationPreferencesScreen')
+          }
+          onOpenCredential={(rawCredentialRecord) =>
+            navigation.navigate('CredentialScreen', { rawCredentialRecord })
+          }
+        />
+
         <View style={styles.ruleRow}>
           <View style={styles.ruleLine} />
           <Text style={styles.ruleLabel}>THREE WAYS TO ADD</Text>
@@ -289,7 +300,22 @@ export default function HomeScreen({
           data={rawCredentialRecords}
           renderItem={renderItem}
           keyExtractor={(item, index) => `${index}-${item._id}`}
-          ListHeaderComponent={<WalletSummary />}
+          ListHeaderComponent={
+            <>
+              <WalletSummary />
+              <Recommendations
+                credentials={rawCredentialRecords}
+                onOpenPreferences={() =>
+                  navigation.navigate('RecommendationPreferencesScreen')
+                }
+                onOpenCredential={(rawCredentialRecord) =>
+                  navigation.navigate('CredentialScreen', {
+                    rawCredentialRecord
+                  })
+                }
+              />
+            </>
+          }
           ListFooterComponent={<LearnMoreLink />}
         />
       )}

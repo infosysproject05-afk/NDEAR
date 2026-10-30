@@ -1,3 +1,5 @@
 export enum AsyncStorageKey {
-  ThemeName = 'ThemeName'
+  ThemeName = 'ThemeName',
+  RecommendationPreferences = 'RecommendationPreferences',
+  RecommendationFeedback = 'RecommendationFeedback'
 }

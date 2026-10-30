@@ -13,6 +13,7 @@ export type CredentialNavigationParamList = {
   }
   PublicLinkScreen: PublicLinkScreenParams
   IssuerInfoScreen: IssuerInfoScreenParams
+  RecommendationPreferencesScreen: undefined
 }
 
 export type HomeScreenProps = StackScreenProps<

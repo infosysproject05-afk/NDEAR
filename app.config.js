@@ -14,7 +14,7 @@ export const VERIFIER_INSTANCE_URL =
   env['VERIFIER_INSTANCE_URL'] || 'https://qr-ndear.vercel.app'
 
 export const WAS = {
-  enabled: true,
+  enabled: false,
   BASE_URL: 'https://storage.dcc.did.coop',
   KEYS: {
     SPACE_ID: 'was_space_id',
@@ -67,11 +67,11 @@ export default {
     scheme: 'exp+learner-credential-wallet',
     orientation: 'portrait',
     icon: './app/assets/icon.png',
-    backgroundColor: '#1D2133',
+    backgroundColor: '#211936',
     splash: {
       image: './app/assets/splash.png',
       resizeMode: 'contain',
-      backgroundColor: '#1D2133'
+      backgroundColor: '#211936'
     },
     updates: {
       fallbackToCacheTimeout: 0
@@ -100,7 +100,7 @@ export default {
       versionCode: BUILD_NUMBER,
       adaptiveIcon: {
         foregroundImage: './app/assets/adaptive-icon.png',
-        backgroundColor: '#1D2133'
+        backgroundColor: '#211936'
       },
       intentFilters: [
         {
