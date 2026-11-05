@@ -180,12 +180,19 @@ class DatabaseAccess {
   }
 
   public static async initialize(passphrase: string): Promise<void> {
-    if (await DatabaseAccess.isUnlocked()) {
-      throw new Error('Cannot initialize unlocked wallet.')
+    const initialized = await DatabaseAccess.isInitialized()
+
+    if (initialized) {
+      if (await DatabaseAccess.isUnlocked()) {
+        throw new Error('Cannot initialize unlocked wallet.')
+      }
+      throw new Error('Wallet must be in reset state to be initialized')
     }
 
-    if (await DatabaseAccess.isInitialized()) {
-      throw new Error('Wallet must be in reset state to be initialized')
+    // Recover from an interrupted setup that left only the SecureStore status.
+    // There is no database to protect when the wallet is not initialized.
+    if (await DatabaseAccess.isUnlocked()) {
+      await DatabaseAccess.lock()
     }
 
     const decoder = new encoding.TextDecoder()
