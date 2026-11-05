@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, AccessibilityInfo } from 'react-native'
+import {
+  Text,
+  View,
+  AccessibilityInfo,
+  TextInput,
+  Platform
+} from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Button, CheckBox } from 'react-native-elements'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -18,12 +24,17 @@ import AccessibleView from '../../components/AccessibleView/AccessibleView'
 import PasswordForm from '../../components/PasswordForm/PasswordForm'
 import WalletArtwork from '../../components/WalletArtwork/WalletArtwork'
 import { useAccessibilityFocus } from '../../hooks'
+import {
+  saveStudentProfile,
+  syncStudentCertificates
+} from '../../lib/studentCertificates'
 
 import dynamicStyleSheet from './SetupNavigation.styles'
 import type {
   StartStepProps,
   CreateStepProps,
   PasswordStepProps,
+  ProfileStepProps,
   SetupNavigationParamList,
   ForFadeType
 } from './SetupNavigation.d'
@@ -49,6 +60,7 @@ export default function SetupNavigation(): React.ReactElement {
       {FEATURE_FLAGS.passwordProtect && (
         <Stack.Screen name="PasswordStep" component={PasswordStep} />
       )}
+      <Stack.Screen name="ProfileStep" component={ProfileStep} />
       <Stack.Screen
         name="CreateStep"
         component={CreateStep}
@@ -83,8 +95,7 @@ function StartStep({ navigation }: StartStepProps) {
               navigation.navigate('PasswordStep')
             } else {
               const generatedPassword = uuidv4()
-              console.log('generatedPassword', generatedPassword)
-              navigation.navigate('CreateStep', {
+              navigation.navigate('ProfileStep', {
                 password: generatedPassword,
                 enableBiometrics: false
               })
@@ -105,7 +116,7 @@ function PasswordStep({ navigation }: PasswordStepProps) {
 
   function _goToNextStep() {
     if (password !== undefined) {
-      navigation.navigate('CreateStep', { password, enableBiometrics })
+      navigation.navigate('ProfileStep', { password, enableBiometrics })
     }
   }
 
@@ -115,10 +126,12 @@ function PasswordStep({ navigation }: PasswordStepProps) {
 
   return (
     <SafeScreenView style={styles.container}>
-      <AccessibleView style={styles.stepContainer} label="Step 1 of 2">
+      <AccessibleView style={styles.stepContainer} label="Step 1 of 3">
         <Text style={[styles.stepText, styles.stepTextActive]}>Step 1</Text>
         <View style={styles.stepDivider} />
         <Text style={styles.stepText}>2</Text>
+        <View style={styles.stepDivider} />
+        <Text style={styles.stepText}>3</Text>
       </AccessibleView>
       <Text style={styles.header} accessibilityRole="header">
         Password
@@ -188,16 +201,200 @@ function PasswordStep({ navigation }: PasswordStepProps) {
   )
 }
 
+function ProfileStep({ navigation, route }: ProfileStepProps) {
+  const { theme, mixins, styles } = useDynamicStyles(dynamicStyleSheet)
+
+  const { password, enableBiometrics } = route.params
+  const [fullName, setFullName] = useState('')
+  const [dateOfBirth, setDateOfBirth] = useState('')
+  const [dobError, setDobError] = useState('')
+
+  const isValid =
+    fullName.trim().length >= 2 && /^\d{4}-\d{2}-\d{2}$/.test(dateOfBirth)
+
+  function _validateDob(value: string) {
+    setDateOfBirth(value)
+    if (value && !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+      setDobError('Use format YYYY-MM-DD')
+    } else {
+      setDobError('')
+    }
+  }
+
+  function _goToCreateStep() {
+    if (!isValid) return
+    navigation.navigate('CreateStep', {
+      password,
+      enableBiometrics,
+      fullName: fullName.trim(),
+      dateOfBirth: dateOfBirth.trim()
+    })
+  }
+
+  return (
+    <SafeScreenView style={styles.container}>
+      <AccessibleView style={styles.stepContainer} label="Step 2 of 3">
+        <Text style={styles.stepText}>1</Text>
+        <View style={styles.stepDivider} />
+        <Text style={[styles.stepText, styles.stepTextActive]}>Step 2</Text>
+        <View style={styles.stepDivider} />
+        <Text style={styles.stepText}>3</Text>
+      </AccessibleView>
+      <Text style={styles.header} accessibilityRole="header">
+        Your Profile
+      </Text>
+      <Text style={styles.paragraphRegular}>
+        Enter your details so we can automatically find and sync your
+        certificates from educational institutions.
+      </Text>
+      <View style={[styles.body, { paddingTop: 20 }]}>
+        {/* Full Name */}
+        <View style={profileInputStyles}>
+          <Text style={profileLabelStyle(theme)}>Full Name</Text>
+          <TextInput
+            style={profileTextInputStyle(theme)}
+            placeholder="e.g. Priya Sharma"
+            placeholderTextColor={theme.color.textSecondary}
+            value={fullName}
+            onChangeText={setFullName}
+            autoCapitalize="words"
+            autoComplete="name"
+            returnKeyType="next"
+            accessibilityLabel="Full name"
+          />
+        </View>
+
+        <View style={styles.inputSeparator} />
+
+        {/* Date of Birth */}
+        <View style={profileInputStyles}>
+          <Text style={profileLabelStyle(theme)}>Date of Birth</Text>
+          <TextInput
+            style={profileTextInputStyle(theme, !!dobError)}
+            placeholder="YYYY-MM-DD  (e.g. 2004-08-15)"
+            placeholderTextColor={theme.color.textSecondary}
+            value={dateOfBirth}
+            onChangeText={_validateDob}
+            keyboardType="numeric"
+            returnKeyType="done"
+            maxLength={10}
+            accessibilityLabel="Date of birth"
+          />
+          {dobError ? (
+            <Text style={{ color: 'red', fontSize: 12, marginTop: 4 }}>
+              {dobError}
+            </Text>
+          ) : null}
+          <Text
+            style={{
+              color: theme.color.textSecondary,
+              fontSize: 12,
+              marginTop: 6
+            }}
+          >
+            Your DOB is used only to auto-fetch your credentials. It is stored
+            securely on this device.
+          </Text>
+        </View>
+      </View>
+
+      <View style={mixins.buttonGroup}>
+        <Button
+          buttonStyle={[mixins.button, styles.buttonClear]}
+          containerStyle={styles.buttonClearContainer}
+          titleStyle={[mixins.buttonTitle, styles.buttonClearTitle]}
+          title="Back"
+          onPress={() => navigation.goBack()}
+        />
+        <View style={mixins.buttonSeparator} />
+        <Button
+          buttonStyle={[mixins.button, mixins.buttonPrimary]}
+          containerStyle={mixins.buttonContainer}
+          titleStyle={mixins.buttonTitle}
+          title="Next"
+          onPress={_goToCreateStep}
+          disabled={!isValid}
+          disabledStyle={mixins.buttonDisabled}
+          disabledTitleStyle={mixins.buttonTitle}
+          testID="profile-next-button"
+          iconRight
+          icon={
+            <MaterialIcons
+              style={styles.arrowIcon}
+              name="arrow-forward"
+              color={theme.color.backgroundSecondary}
+              size={theme.iconSize}
+            />
+          }
+        />
+      </View>
+    </SafeScreenView>
+  )
+}
+
+// Inline style helpers for profile inputs (avoids adding to stylesheet)
+const profileInputStyles = {
+  width: '100%' as const,
+  paddingHorizontal: 4
+}
+
+function profileLabelStyle(theme: any) {
+  return {
+    fontSize: theme.fontSize.small,
+    fontFamily: theme.fontFamily.bold,
+    color: theme.color.textPrimary,
+    marginBottom: 6
+  }
+}
+
+function profileTextInputStyle(theme: any, hasError = false) {
+  return {
+    borderWidth: 1,
+    borderColor: hasError ? 'red' : theme.color.iconInactive,
+    borderRadius: theme.borderRadius,
+    backgroundColor: theme.color.foregroundPrimary,
+    color: theme.color.textPrimary,
+    fontSize: theme.fontSize.regular,
+    fontFamily: theme.fontFamily.regular,
+    paddingHorizontal: 14,
+    paddingVertical: Platform.OS === 'ios' ? 14 : 10,
+    width: '100%' as const
+  }
+}
+
 function CreateStep({ route }: CreateStepProps) {
   const { styles, mixins } = useDynamicStyles(dynamicStyleSheet)
 
-  const { password, enableBiometrics } = route.params
+  const { password, enableBiometrics, fullName, dateOfBirth } = route.params
   const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(true)
+  const [syncStatus, setSyncStatus] = useState('')
   const [titleRef, focusTitle] = useAccessibilityFocus<Text>()
 
   async function _initializeWallet() {
+    // 1. Save student profile to local storage
+    await saveStudentProfile({ fullName, dateOfBirth })
+
+    // 2. Initialize wallet (create encrypted database)
     await dispatch(initialize({ passphrase: password, enableBiometrics }))
+
+    // 3. Auto-fetch certificates in the background
+    setSyncStatus('Syncing your certificates…')
+    try {
+      const certs = await syncStudentCertificates(fullName, dateOfBirth)
+      if (certs.length > 0) {
+        setSyncStatus(`✓ Found ${certs.length} certificate(s) for you!`)
+      } else {
+        setSyncStatus(
+          'No certificates found yet. They will sync automatically when issued.'
+        )
+      }
+    } catch {
+      setSyncStatus(
+        'Could not sync certificates. You can retry from the home screen.'
+      )
+    }
+
     await dispatch(pollWalletState())
   }
 
@@ -213,15 +410,27 @@ function CreateStep({ route }: CreateStepProps) {
 
   return (
     <SafeScreenView style={styles.container}>
-      <AccessibleView style={styles.stepContainer} label="Step 2 of 2">
+      <AccessibleView style={styles.stepContainer} label="Step 3 of 3">
         <Text style={styles.stepText}>1</Text>
         <View style={styles.stepDivider} />
-        <Text style={[styles.stepText, styles.stepTextActive]}>Step 2</Text>
+        <Text style={styles.stepText}>2</Text>
+        <View style={styles.stepDivider} />
+        <Text style={[styles.stepText, styles.stepTextActive]}>Step 3</Text>
       </AccessibleView>
       <Text style={styles.header} ref={titleRef} accessibilityRole="header">
         Creating Wallet
       </Text>
       <Text style={styles.paragraphRegular}>This will only take a moment.</Text>
+      {syncStatus ? (
+        <Text
+          style={[
+            styles.paragraphRegular,
+            { marginTop: 12, fontStyle: 'italic' }
+          ]}
+        >
+          {syncStatus}
+        </Text>
+      ) : null}
       <View style={styles.loadingContainer}>
         <LoadingIndicator loading={loading} />
       </View>
