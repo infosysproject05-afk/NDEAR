@@ -1,4 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { IVerifiableCredential } from '@digitalcredentials/ssi'
+
+import store from '../store'
+import {
+  addCredential,
+  selectRawCredentialRecords
+} from '../store/slices/credential'
+import { selectRawProfileRecords } from '../store/slices/profile'
 
 const CERTIFICATE_API = 'https://certificate-3g1x.onrender.com/api/certificates'
 
@@ -137,4 +145,47 @@ export async function syncStudentCertificates(
     `[studentCertificates] Using ${cached.length} cached certificate(s)`
   )
   return cached
+}
+
+/**
+ * Fetches newly-issued certificates and imports them into the active wallet
+ * profile. Existing credentials are left unchanged.
+ */
+export async function syncAndImportStudentCertificates(
+  fullName: string,
+  dateOfBirth: string
+): Promise<number> {
+  const certificates = await fetchCertificatesFromStudio(fullName, dateOfBirth)
+  if (certificates.length === 0) return 0
+
+  await cacheCertificates(certificates)
+
+  const profile = selectRawProfileRecords(store.getState())[0]
+  if (!profile) {
+    throw new Error(
+      'No active wallet profile is available for certificate import.'
+    )
+  }
+
+  const existingIds = new Set(
+    selectRawCredentialRecords(store.getState()).map(
+      (record) => record.credential.id
+    )
+  )
+  let imported = 0
+  for (const certificate of certificates) {
+    if (existingIds.has(certificate.id)) continue
+    await store
+      .dispatch(
+        addCredential({
+          credential: certificate as IVerifiableCredential,
+          profileRecordId: profile._id
+        })
+      )
+      .unwrap()
+    existingIds.add(certificate.id)
+    imported += 1
+  }
+
+  return imported
 }

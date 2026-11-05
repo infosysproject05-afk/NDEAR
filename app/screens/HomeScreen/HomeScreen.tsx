@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import {
   Text,
   View,
@@ -10,6 +10,7 @@ import {
 import { Button } from 'react-native-elements'
 import { MaterialIcons } from '@expo/vector-icons'
 import { useSelector } from 'react-redux'
+import { useFocusEffect } from '@react-navigation/native'
 import { Swipeable, TouchableOpacity } from 'react-native-gesture-handler'
 
 import { CredentialItem, NavHeader, ConfirmModal } from '../../components'
@@ -29,6 +30,10 @@ import {
   selectRawCredentialRecords
 } from '../../store/slices/credential'
 import { getCredentialName } from '../../lib/credentialName'
+import {
+  getStudentProfile,
+  syncAndImportStudentCertificates
+} from '../../lib/studentCertificates'
 import Recommendations from '../../components/Recommendations/Recommendations'
 
 type AddMethod = {
@@ -71,6 +76,28 @@ export default function HomeScreen({
   )
   const dispatch = useAppDispatch()
   const share = useShareCredentials()
+
+  useFocusEffect(
+    useCallback(() => {
+      let active = true
+      const sync = async () => {
+        const profile = await getStudentProfile()
+        if (!profile || !active) return
+        try {
+          await syncAndImportStudentCertificates(
+            profile.fullName,
+            profile.dateOfBirth
+          )
+        } catch (error) {
+          console.warn('[studentCertificates] Wallet refresh failed:', error)
+        }
+      }
+      void sync()
+      return () => {
+        active = false
+      }
+    }, [])
+  )
 
   const itemToDeleteName = itemToDelete
     ? getCredentialName(itemToDelete.credential)

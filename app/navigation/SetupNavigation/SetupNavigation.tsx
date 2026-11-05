@@ -26,7 +26,7 @@ import WalletArtwork from '../../components/WalletArtwork/WalletArtwork'
 import { useAccessibilityFocus } from '../../hooks'
 import {
   saveStudentProfile,
-  syncStudentCertificates
+  syncAndImportStudentCertificates
 } from '../../lib/studentCertificates'
 
 import dynamicStyleSheet from './SetupNavigation.styles'
@@ -381,13 +381,14 @@ function CreateStep({ route }: CreateStepProps) {
     // 3. Auto-fetch certificates in the background
     setSyncStatus('Syncing your certificates…')
     try {
-      const certs = await syncStudentCertificates(fullName, dateOfBirth)
-      if (certs.length > 0) {
-        setSyncStatus(`✓ Found ${certs.length} certificate(s) for you!`)
+      const imported = await syncAndImportStudentCertificates(
+        fullName,
+        dateOfBirth
+      )
+      if (imported > 0) {
+        setSyncStatus(`✓ Added ${imported} certificate(s) to your wallet!`)
       } else {
-        setSyncStatus(
-          'No certificates found yet. They will sync automatically when issued.'
-        )
+        setSyncStatus('No new certificates found yet.')
       }
     } catch {
       setSyncStatus(
