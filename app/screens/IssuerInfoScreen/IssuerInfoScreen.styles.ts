@@ -41,6 +41,26 @@ export default createDynamicStyleSheet(({ theme }) => ({
     borderRadius: theme.borderRadius,
     marginBottom: 12
   },
+  connectedUniversity: {
+    padding: 16,
+    marginBottom: 20,
+    borderRadius: theme.borderRadius,
+    backgroundColor: '#123B39',
+    borderWidth: 1,
+    borderColor: '#287A68'
+  },
+  connectedUniversityLabel: {
+    fontSize: 10,
+    fontFamily: theme.fontFamily.medium,
+    letterSpacing: 1.2,
+    color: '#8EE6C4'
+  },
+  connectedUniversityName: {
+    fontSize: 20,
+    fontFamily: theme.fontFamily.bold,
+    color: '#FFFFFF',
+    marginVertical: 4
+  },
   bulletList: {
     marginTop: -4
   },

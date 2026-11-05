@@ -11,6 +11,7 @@ import { DidRegistryContext } from '../../init/registries'
 import { shouldDisableUrls } from '../../lib/credentialSecurity'
 
 const NO_URL = 'None'
+const CONNECTED_UNIVERSITY_URL = 'https://certificate-qc86.vercel.app/'
 
 export default function IssuerInfoScreen({
   navigation,
@@ -66,6 +67,20 @@ export default function IssuerInfoScreen({
             ⚠️ Links disabled - unrecognized issuer
           </Text>
         )}
+        <View style={styles.connectedUniversity}>
+          <Text style={styles.connectedUniversityLabel}>
+            CONNECTED UNIVERSITY
+          </Text>
+          <Text style={styles.connectedUniversityName}>ANITS</Text>
+          <Text
+            style={styles.link}
+            onPress={() => Linking.openURL(CONNECTED_UNIVERSITY_URL)}
+            accessibilityRole="link"
+            accessibilityLabel="Open ANITS university website"
+          >
+            Visit university website ↗
+          </Text>
+        </View>
         <Text style={styles.sectionTitle}>
           Information from Known Registries
         </Text>

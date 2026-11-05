@@ -41,6 +41,7 @@ import { exportWallet } from '../../lib/export'
 import { registerWallet } from '../../lib/registerWallet'
 import WASScreen from '../../screens/WAS/WasScreen'
 import WasConnect from '../../screens/WAS/WasConnect'
+import ConnectedUniversitiesScreen from '../../screens/ConnectedUniversitiesScreen/ConnectedUniversitiesScreen'
 
 const Stack = createStackNavigator<SettingsNavigationParamList>()
 
@@ -162,6 +163,12 @@ function Settings({ navigation }: SettingsProps): React.ReactElement {
           testID="manage-profiles-button"
         />
         <SettingsItem
+          key="connected-universities"
+          title="Connected universities"
+          onPress={() => navigation.navigate('ConnectedUniversitiesScreen')}
+          testID="connected-universities-button"
+        />
+        <SettingsItem
           key="register"
           title="Register wallet"
           onPress={registerWallet}
@@ -219,6 +226,10 @@ export default function SettingsNavigation({
       initialRouteName="Settings"
     >
       <Stack.Screen name="Settings" component={Settings} />
+      <Stack.Screen
+        name="ConnectedUniversitiesScreen"
+        component={ConnectedUniversitiesScreen}
+      />
       <Stack.Screen
         name="ManageProfilesScreen"
         component={ManageProfilesScreen}

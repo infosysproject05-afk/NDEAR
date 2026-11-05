@@ -58,6 +58,8 @@ const ADD_METHODS: AddMethod[] = [
   }
 ]
 
+const CONNECTED_UNIVERSITY_URL = 'https://certificate-qc86.vercel.app/'
+
 export default function HomeScreen({
   navigation
 }: HomeScreenProps): React.ReactElement {
@@ -162,6 +164,31 @@ export default function HomeScreen({
     )
   }
 
+  function ConnectedUniversity(): React.ReactElement {
+    return (
+      <View style={styles.connectedUniversity} accessible>
+        <View style={styles.connectedUniversityIcon}>
+          <MaterialIcons name="check" size={18} color="#FFFFFF" />
+        </View>
+        <View style={styles.connectedUniversityCopy}>
+          <Text style={styles.connectedUniversityLabel}>
+            CONNECTED UNIVERSITY
+          </Text>
+          <Text style={styles.connectedUniversityName}>ANITS</Text>
+          <Text
+            style={styles.connectedUniversityLink}
+            onPress={() => Linking.openURL(CONNECTED_UNIVERSITY_URL)}
+            accessibilityRole="link"
+            accessibilityLabel="Open ANITS university website"
+          >
+            certificate-qc86.vercel.app ↗
+          </Text>
+        </View>
+        <Text style={styles.connectedUniversityStatus}>Connected</Text>
+      </View>
+    )
+  }
+
   async function deleteItem() {
     if (itemToDelete === null) return
     dispatch(deleteCredential(itemToDelete))
@@ -191,6 +218,7 @@ export default function HomeScreen({
         <View style={styles.ctaWrapper}>
           <AddCredentialButton />
         </View>
+        <ConnectedUniversity />
 
         <Recommendations
           credentials={rawCredentialRecords}
@@ -265,6 +293,7 @@ export default function HomeScreen({
           </View>
         </View>
         <AddCredentialButton />
+        <ConnectedUniversity />
         <Text style={styles.collectionTitle}>Your credentials</Text>
         <Text style={styles.collectionHint}>
           Swipe a card to share or remove it.

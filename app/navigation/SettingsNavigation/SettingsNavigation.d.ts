@@ -14,6 +14,7 @@ export type SettingsItemProps = {
 
 export type SettingsNavigationParamList = {
   Settings: undefined
+  ConnectedUniversitiesScreen: undefined
   RestoreWalletScreen: undefined
   ManageProfilesScreen: undefined
   AddExistingProfileScreen: undefined

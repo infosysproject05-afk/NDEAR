@@ -6,6 +6,52 @@ export default createDynamicStyleSheet(({ mixins, theme }) => ({
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
+  connectedUniversity: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 14,
+    marginBottom: 8,
+    borderRadius: theme.borderRadius,
+    backgroundColor: '#123B39',
+    borderWidth: 1,
+    borderColor: '#287A68'
+  },
+  connectedUniversityIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#159A73',
+    marginRight: 12
+  },
+  connectedUniversityCopy: {
+    flex: 1
+  },
+  connectedUniversityLabel: {
+    fontFamily: theme.fontFamily.medium,
+    fontSize: 9,
+    letterSpacing: 1.2,
+    color: '#8EE6C4'
+  },
+  connectedUniversityName: {
+    fontFamily: theme.fontFamily.bold,
+    fontSize: 16,
+    color: '#FFFFFF',
+    marginTop: 2
+  },
+  connectedUniversityLink: {
+    fontFamily: theme.fontFamily.regular,
+    fontSize: 12,
+    color: '#8BDCE8',
+    marginTop: 2,
+    textDecorationLine: 'underline'
+  },
+  connectedUniversityStatus: {
+    fontFamily: theme.fontFamily.medium,
+    fontSize: 11,
+    color: '#8EE6C4'
+  },
   dashboardEyebrow: {
     fontFamily: theme.fontFamily.medium,
     fontSize: 11,
