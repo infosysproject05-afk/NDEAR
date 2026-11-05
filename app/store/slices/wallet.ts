@@ -5,7 +5,7 @@ import { type RootState } from '..'
 import { GlobalModalPayload } from '../../components'
 import { isBiometricsSupported } from '../../lib/biometrics'
 import { importWalletOrProfileFrom } from '../../lib/import'
-import { db, INITIAL_PROFILE_NAME } from '../../model'
+import { db, INITIAL_PROFILE_NAME, ProfileRecord } from '../../model'
 import { loadThemeName, saveThemeName } from '../../styles/theme/themeName'
 import { createProfile } from './profile'
 import { Cache } from '../../lib/cache'
@@ -103,9 +103,18 @@ const initialize = createAsyncThunk(
       }
     } else {
       try {
-        await dispatch(
-          createProfile({ profileName: INITIAL_PROFILE_NAME })
-        ).unwrap()
+        const profiles = await ProfileRecord.getAllProfileRecords()
+        const hasInitialProfile = profiles.some(
+          (profile) =>
+            profile.profileName.toLowerCase() ===
+            INITIAL_PROFILE_NAME.toLowerCase()
+        )
+
+        if (!hasInitialProfile) {
+          await dispatch(
+            createProfile({ profileName: INITIAL_PROFILE_NAME })
+          ).unwrap()
+        }
       } catch (err) {
         console.error('Profile creation failed:', err)
       }
