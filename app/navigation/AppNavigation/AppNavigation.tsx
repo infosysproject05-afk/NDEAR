@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
@@ -14,6 +14,7 @@ import { EventProvider } from 'react-native-outside-press'
 import { deepLinkConfig } from '../../lib/deepLinkConfig'
 import GlobalConfirmModal from '../../components/GlobalConfirmModal/GlobalConfirmModal'
 import { navigationRef } from '../navigationRef'
+import { retryPendingCertificateHandoff } from '../../lib/certificateHandoff'
 
 export { navigationRef }
 
@@ -36,6 +37,14 @@ export default function AppNavigation(): React.ReactElement | null {
   const loading = useAppLoading()
   const { isUnlocked, isInitialized, needsRestart } =
     useSelector(selectWalletState)
+
+  useEffect(() => {
+    if (isUnlocked && isInitialized) {
+      retryPendingCertificateHandoff().catch((error) =>
+        console.warn('[certificateHandoff] Pending import failed:', error)
+      )
+    }
+  }, [isInitialized, isUnlocked])
 
   function renderScreen(): React.ReactElement | null {
     if (needsRestart) {

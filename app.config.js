@@ -41,7 +41,8 @@ export const LinkConfig = {
       'dccrequest://',
       'org.dcconsortium://',
       'https://lcw.app/request',
-      'interaction:'
+      'interaction:',
+      'ndear://certificate'
     ],
     universalAppLink: 'https://lcw.app/mobile'
   },
@@ -90,7 +91,7 @@ export default {
       infoPlist: {
         CFBundleURLTypes: [
           {
-            CFBundleURLSchemes: ['dccrequest', 'interaction']
+            CFBundleURLSchemes: ['dccrequest', 'interaction', 'ndear']
           }
         ]
       }
@@ -124,6 +125,10 @@ export default {
           data: [
             {
               scheme: 'interaction'
+            },
+            {
+              scheme: 'ndear',
+              host: 'certificate'
             }
           ],
           category: ['BROWSABLE', 'DEFAULT']

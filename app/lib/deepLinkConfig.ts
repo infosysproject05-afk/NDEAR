@@ -9,6 +9,7 @@ import { redirectRequestRoute, redirectInteractionUrl } from './navigationUtil'
 import { isLegacyCredentialRequest, legacyRequestParamsFromUrl } from './decode'
 import { goToCredentialFoyer } from '../screens/AddScreen/AddScreen'
 import { isInteractionUrl } from './interactionUrl'
+import { handleCertificateHandoff } from './certificateHandoff'
 
 const DEEP_LINK_SCHEMES = LinkConfig.schemes.customProtocol.concat(
   LinkConfig.schemes.universalAppLink
@@ -50,7 +51,7 @@ export const deepLinkConfig = {
    * @param listener
    */
   subscribe: (listener: (url: string) => void) => {
-    const onReceiveURL = ({ url }: { url: string }) => {
+    const onReceiveURL = async ({ url }: { url: string }) => {
       console.log('deepLink "subscribe" event for url:', url)
       if (isLegacyCredentialRequest(url)) {
         const params = legacyRequestParamsFromUrl(url)
@@ -60,6 +61,7 @@ export const deepLinkConfig = {
         redirectInteractionUrl(url)
         return
       }
+      if (await handleCertificateHandoff(url)) return
       if (url.includes('request=')) {
         redirectRequestRoute(url)
       }
@@ -74,6 +76,7 @@ export const deepLinkConfig = {
     const url = await Linking.getInitialURL()
     if (url !== null) {
       await new Promise((res) => setTimeout(res, 100))
+      if (await handleCertificateHandoff(url)) return
       return encodeQueryParams(url)
     }
   }
